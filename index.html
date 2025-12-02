@@ -8,58 +8,311 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; }
+        :root {
+            --gold-primary: #C9A227;
+            --gold-light: #E8D48B;
+            --gold-dark: #8B7015;
+            --ice-blue: #7FB3D5;
+            --ice-light: #A9CCE3;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2D2D2D;
+            --charcoal-lighter: #3D3D3D;
+            --bone: #F5F2E9;
+            --blood-red: #8B0000;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Barlow', sans-serif;
+            background: var(--charcoal);
+        }
+        
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-barlow { font-family: 'Barlow', sans-serif; }
+        
+        .norse-pattern { position: relative; }
+        
+        .norse-pattern::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(30deg, var(--gold-primary) 1px, transparent 1px),
+                linear-gradient(-30deg, var(--gold-primary) 1px, transparent 1px),
+                linear-gradient(150deg, var(--gold-primary) 1px, transparent 1px),
+                linear-gradient(-150deg, var(--gold-primary) 1px, transparent 1px);
+            background-size: 60px 104px;
+            background-position: 0 0, 30px 0, 30px -52px, 0 52px;
+        }
+        
+        .runic-border { position: relative; }
+        
+        .runic-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, var(--gold-primary) 20%, 
+                var(--gold-light) 50%, var(--gold-primary) 80%, 
+                transparent 100%
+            );
+        }
+        
+        .gold-glow { text-shadow: 0 0 20px rgba(201, 162, 39, 0.3); }
+        
+        .carved-card {
+            background: linear-gradient(145deg, #252525 0%, #1A1A1A 100%);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.05),
+                0 10px 40px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(201, 162, 39, 0.1);
+        }
+        
+        .norse-input {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .norse-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+            outline: none;
+        }
+        
+        .btn-forge {
+            background: linear-gradient(180deg, #D4AF37 0%, #C9A227 30%, #8B7015 100%);
+            box-shadow: 
+                0 4px 15px rgba(201, 162, 39, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -2px 0 rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-forge:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 25px rgba(201, 162, 39, 0.5),
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -2px 0 rgba(0,0,0,0.2);
+        }
+        
+        .btn-forge:active { transform: translateY(0); }
+        
+        .score-ring { position: relative; }
+        
+        .score-ring::before {
+            content: '';
+            position: absolute;
+            top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border: 2px solid var(--gold-primary);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        .score-ring::after {
+            content: '';
+            position: absolute;
+            top: -16px; left: -16px; right: -16px; bottom: -16px;
+            border: 1px solid var(--gold-primary);
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+        
+        .badge-elite { 
+            background: linear-gradient(135deg, #9B59B6 0%, #6C3483 100%);
+            box-shadow: 0 2px 10px rgba(155, 89, 182, 0.4);
+        }
+        .badge-ottimo { 
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            box-shadow: 0 2px 10px rgba(201, 162, 39, 0.4);
+        }
+        .badge-buono { 
+            background: linear-gradient(135deg, var(--ice-blue) 0%, #5499C7 100%);
+            box-shadow: 0 2px 10px rgba(127, 179, 213, 0.4);
+        }
+        .badge-discreto { 
+            background: linear-gradient(135deg, #A67C52 0%, #8B6914 100%);
+            box-shadow: 0 2px 10px rgba(166, 124, 82, 0.4);
+        }
+        .badge-migliorare { 
+            background: linear-gradient(135deg, #7D6B5D 0%, #5D4E42 100%);
+            box-shadow: 0 2px 10px rgba(125, 107, 93, 0.3);
+        }
+        
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-in { animation: fadeSlideUp 0.6s ease-out forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
+        
+        .progress-forge {
+            background: rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        
+        .progress-forge-fill {
+            background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold-primary) 50%, var(--gold-light) 100%);
+            box-shadow: 0 0 10px rgba(201, 162, 39, 0.5);
+        }
+        
+        .norse-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold-primary);
+            opacity: 0.5;
+        }
+        
+        .norse-divider::before,
+        .norse-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+        
+        /* Gap Analysis Bar */
+        .gap-bar {
+            position: relative;
+            height: 12px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            overflow: visible;
+        }
+        
+        .gap-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease-out;
+        }
+        
+        .gap-bar-standard {
+            position: absolute;
+            top: -4px;
+            bottom: -4px;
+            width: 3px;
+            background: var(--gold-primary);
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(201, 162, 39, 0.6);
+        }
+        
+        .gap-bar-standard::after {
+            content: '100';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: var(--gold-primary);
+            font-weight: 600;
+        }
+        
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(26,26,26,0.95) 20%, #1A1A1A 100%);
+            padding: 1rem 1rem 1.5rem;
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-out;
+        }
+        
+        .sticky-cta.visible {
+            transform: translateY(0);
+        }
+        
+        /* Projection card glow */
+        .projection-glow {
+            box-shadow: 
+                0 0 30px rgba(201, 162, 39, 0.15),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--charcoal); }
+        ::-webkit-scrollbar-thumb { background: var(--charcoal-lighter); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-dark); }
+        
+        /* Hide sticky on desktop */
+        @media (min-width: 768px) {
+            .sticky-cta { display: none; }
+            .main-content { padding-bottom: 0; }
+        }
+        
+        @media (max-width: 767px) {
+            .main-content.has-results { padding-bottom: 100px; }
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState, useRef } = React;
-        const Activity = ({ className }) => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+        const { useState, useRef, useEffect } = React;
+        
+        const AxeIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M14 4L4 14" /><path d="M14 4L20 10" />
+            <path d="M14 4C14 4 18 3 20 5C22 7 21 11 21 11" />
+            <path d="M4 14L10 20" />
           </svg>
         );
-        const Target = ({ className }) => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="12" r="6" />
-            <circle cx="12" cy="12" r="2" />
+        
+        const ShieldIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M12 2L3 7V12C3 17 7.5 21.5 12 22C16.5 21.5 21 17 21 12V7L12 2Z" />
+            <path d="M12 6V18" /><path d="M7 9H17" />
           </svg>
         );
-        const Zap = ({ className }) => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        
+        const HelmIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 3V12L18 18" /><path d="M12 12L6 18" />
+            <circle cx="12" cy="12" r="3" />
           </svg>
         );
-        const Heart = ({ className }) => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+        
+        const ArrowIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M5 12H19" /><path d="M12 5L19 12L12 19" />
           </svg>
         );
-        const ExternalLink = ({ className }) => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <path d="M15 3h6v6" />
-            <path d="M10 14 21 3" />
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-          </svg>
-        );
-        const Share2 = ({ className }) => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <circle cx="18" cy="5" r="3" />
-            <circle cx="6" cy="12" r="3" />
-            <circle cx="18" cy="19" r="3" />
-            <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
-            <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
-          </svg>
-        );
-        const Download = ({ className }) => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        
+        const DownloadIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M21 15V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15" />
             <polyline points="7 10 12 15 17 10" />
-            <line x1="12" x2="12" y1="15" y2="3" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        );
+        
+        const TrendUpIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+            <polyline points="17 6 23 6 23 12" />
           </svg>
         );
 
@@ -68,40 +321,27 @@
           const [squat, setSquat] = useState('');
           const [run5k, setRun5k] = useState('');
           const [results, setResults] = useState(null);
+          const [isCalculating, setIsCalculating] = useState(false);
+          const [showStickyCta, setShowStickyCta] = useState(false);
           const canvasRef = useRef(null);
+          const resultsRef = useRef(null);
 
-          // Standard basati sul livello AVANZATO delle nuove tabelle
-          const standards = {
-            '65-70': {
-              name: '65-70kg',
-              squatRatio: 2.3,
-              run5k: 1290 // 21:30
-            },
-            '70-75': {
-              name: '70-75kg',
-              squatRatio: 2.2,
-              run5k: 1305 // 21:45
-            },
-            '75-80': {
-              name: '75-80kg',
-              squatRatio: 2.1,
-              run5k: 1335 // 22:15
-            },
-            '80-85': {
-              name: '80-85kg',
-              squatRatio: 2.0,
-              run5k: 1380 // 23:00
-            },
-            '85-90': {
-              name: '85-90kg',
-              squatRatio: 1.9,
-              run5k: 1410 // 23:30
-            },
-            '90-95': {
-              name: '90-95kg',
-              squatRatio: 1.8,
-              run5k: 1440 // 24:00
+          useEffect(() => {
+            if (results) {
+              const timer = setTimeout(() => setShowStickyCta(true), 1500);
+              return () => clearTimeout(timer);
+            } else {
+              setShowStickyCta(false);
             }
+          }, [results]);
+
+          const standards = {
+            '65-70': { name: '65-70kg', squatRatio: 2.3, run5k: 1290 },
+            '70-75': { name: '70-75kg', squatRatio: 2.2, run5k: 1305 },
+            '75-80': { name: '75-80kg', squatRatio: 2.1, run5k: 1335 },
+            '80-85': { name: '80-85kg', squatRatio: 2.0, run5k: 1380 },
+            '85-90': { name: '85-90kg', squatRatio: 1.9, run5k: 1410 },
+            '90-95': { name: '90-95kg', squatRatio: 1.8, run5k: 1440 }
           };
 
           const getWeightCategory = (w) => {
@@ -116,98 +356,43 @@
 
           const timeToSeconds = (timeStr) => {
             const parts = timeStr.split(':');
-            if (parts.length === 2) {
-              return parseInt(parts[0]) * 60 + parseInt(parts[1]);
-            }
+            if (parts.length === 2) return parseInt(parts[0]) * 60 + parseInt(parts[1]);
             return parseInt(timeStr);
           };
 
           const secondsToTime = (seconds) => {
             const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
+            const secs = Math.round(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
           };
 
           const calculateScore = (value, standard, lowerIsBetter = false) => {
-            if (lowerIsBetter) {
-              return Math.round((standard / value) * 100);
-            } else {
-              return Math.round((value / standard) * 100);
-            }
+            if (lowerIsBetter) return Math.round((standard / value) * 100);
+            return Math.round((value / standard) * 100);
           };
 
           const getPerformanceLevel = (score) => {
-            if (score >= 110)
-              return {
-                level: 'Elite',
-                color: 'bg-purple-100 border-purple-500 text-purple-800',
-                emoji: '🏆',
-                badge: 'bg-purple-500'
-              };
-            if (score >= 100)
-              return {
-                level: 'Ottimo',
-                color: 'bg-green-100 border-green-500 text-green-800',
-                emoji: '💎',
-                badge: 'bg-green-500'
-              };
-            if (score >= 90)
-              return {
-                level: 'Buono',
-                color: 'bg-blue-100 border-blue-500 text-blue-800',
-                emoji: '⚡',
-                badge: 'bg-blue-500'
-              };
-            if (score >= 80)
-              return {
-                level: 'Discreto',
-                color: 'bg-yellow-100 border-yellow-500 text-yellow-800',
-                emoji: '📊',
-                badge: 'bg-yellow-500'
-              };
-            return {
-              level: 'Da migliorare',
-              color: 'bg-orange-100 border-orange-500 text-orange-800',
-              emoji: '📈',
-              badge: 'bg-orange-500'
-            };
+            if (score >= 110) return { level: 'Elite', badgeClass: 'badge-elite', symbol: 'ᛟ', color: 'text-purple-400' };
+            if (score >= 100) return { level: 'Ottimo', badgeClass: 'badge-ottimo', symbol: 'ᛏ', color: 'text-amber-400' };
+            if (score >= 90) return { level: 'Buono', badgeClass: 'badge-buono', symbol: 'ᚱ', color: 'text-sky-400' };
+            if (score >= 80) return { level: 'Discreto', badgeClass: 'badge-discreto', symbol: 'ᚹ', color: 'text-amber-600' };
+            return { level: 'Da forgiare', badgeClass: 'badge-migliorare', symbol: 'ᚠ', color: 'text-stone-400' };
           };
 
           const getOverallPerformance = (avgScore) => {
-            if (avgScore >= 110)
-              return {
-                text: 'ELITE HYBRID ATHLETE',
-                color: 'text-purple-400',
-                emoji: '🏆',
-                desc: "Superi tutti gli standard d'elite!"
-              };
-            if (avgScore >= 100)
-              return {
-                text: 'OTTIMO HYBRID ATHLETE',
-                color: 'text-green-400',
-                emoji: '💎',
-                desc: 'Raggiungi o superi gli standard!'
-              };
-            if (avgScore >= 90)
-              return {
-                text: 'BUON HYBRID ATHLETE',
-                color: 'text-blue-400',
-                emoji: '⚡',
-                desc: "Vicino agli standard d'eccellenza!"
-              };
-            if (avgScore >= 80)
-              return {
-                text: 'HYBRID ATHLETE IN CRESCITA',
-                color: 'text-yellow-400',
-                emoji: '📊',
-                desc: 'Buona base, continua a migliorare!'
-              };
-            return {
-              text: 'HYBRID ATHLETE IN SVILUPPO',
-              color: 'text-orange-400',
-              emoji: '📈',
-              desc: 'Ottimo inizio, hai ampi margini!'
-            };
+            if (avgScore >= 110) return { text: 'ELITE WARRIOR', color: 'text-purple-400', symbol: 'ᛟ', desc: 'Superi tutti gli standard. Sei forgiato nel ferro.' };
+            if (avgScore >= 100) return { text: 'FORGIATO', color: 'text-amber-400', symbol: 'ᛏ', desc: 'Raggiungi gli standard dei guerrieri.' };
+            if (avgScore >= 90) return { text: 'GUERRIERO', color: 'text-sky-400', symbol: 'ᚱ', desc: 'Vicino alla perfezione. Continua a forgiare.' };
+            if (avgScore >= 80) return { text: 'APPRENDISTA', color: 'text-amber-600', symbol: 'ᚹ', desc: 'Buona base. Il cammino è ancora lungo.' };
+            return { text: 'INIZIATO', color: 'text-stone-400', symbol: 'ᚠ', desc: 'Il viaggio inizia qui. Forgia il tuo destino.' };
+          };
+
+          const getNextLevel = (score) => {
+            if (score >= 110) return { name: 'Elite', threshold: 110 };
+            if (score >= 100) return { name: 'Elite', threshold: 110 };
+            if (score >= 90) return { name: 'Ottimo', threshold: 100 };
+            if (score >= 80) return { name: 'Buono', threshold: 90 };
+            return { name: 'Discreto', threshold: 80 };
           };
 
           const getRecommendedProgram = (tests) => {
@@ -217,7 +402,7 @@
             if (!squatTest) return null;
 
             const squatScore = squatTest.score;
-            const avgRunningScore = run5kTest && run5kTest.score ? run5kTest.score : 0;
+            const avgRunningScore = run5kTest?.score || 0;
 
             const isSquatHigh = squatScore >= 100;
             const isSquatLow = squatScore < 80;
@@ -228,11 +413,10 @@
               return {
                 name: 'PROGRAMMA D',
                 title: "L'Hybrid Avanzato",
-                emoji: '🔥',
-                color: 'from-purple-600 to-pink-600',
+                symbol: 'ᛟ',
+                gradient: 'from-stone-900 via-stone-800 to-neutral-900',
                 profile: 'Lifter Avanzato + Runner Avanzato',
-                description:
-                  'Sei forte sia in sala pesi che nella corsa! Hai bisogno di periodizzazione complessa per continuare a progredire in entrambi i domini.',
+                description: 'Sei forte sia in sala pesi che nella corsa! Hai bisogno di periodizzazione complessa per continuare a progredire in entrambi i domini.',
                 focus: [
                   'Periodizzazione avanzata con fasi alternate',
                   'Volume alto su entrambe le discipline',
@@ -240,7 +424,8 @@
                   'Peak performance su obiettivi specifici'
                 ],
                 frequency: '3 Strength + 3-4 Running',
-                duration: '12 settimane'
+                duration: '12 settimane',
+                ctaText: 'INIZIA IL PROGRAMMA D'
               };
             }
 
@@ -248,11 +433,10 @@
               return {
                 name: 'PROGRAMMA A',
                 title: 'Il Lifter che Corre',
-                emoji: '💪',
-                color: 'from-orange-600 to-red-600',
+                symbol: 'ᚦ',
+                gradient: 'from-amber-950 via-stone-900 to-stone-950',
                 profile: 'Lifter Avanzato + Runner Principiante',
-                description:
-                  'Sei forte in sala pesi! Ora è il momento di costruire una base aerobica solida senza perdere i tuoi guadagni di forza.',
+                description: 'Sei forte in sala pesi! Ora è il momento di costruire una base aerobica solida senza perdere i tuoi guadagni di forza.',
                 focus: [
                   'Mantenere/ottimizzare forza e massa muscolare',
                   'Introduzione graduale alla corsa con focus tecnico',
@@ -260,7 +444,8 @@
                   'Volume running progressivo ma conservativo'
                 ],
                 frequency: '3 Strength + 3 Running',
-                duration: '12 settimane'
+                duration: '12 settimane',
+                ctaText: 'INIZIA IL PROGRAMMA A'
               };
             }
 
@@ -268,11 +453,10 @@
               return {
                 name: 'PROGRAMMA E',
                 title: 'Il Runner che Solleva',
-                emoji: '🏃',
-                color: 'from-blue-600 to-cyan-600',
+                symbol: 'ᛖ',
+                gradient: 'from-slate-900 via-stone-900 to-zinc-950',
                 profile: 'Runner Avanzato + Lifter Principiante',
-                description:
-                  'Ottima base aerobica! Ora aggiungi forza per diventare un atleta più completo e prevenire infortuni.',
+                description: 'Ottima base aerobica! Ora aggiungi forza per diventare un atleta più completo e prevenire infortuni.',
                 focus: [
                   'Mantenere capacità aerobiche',
                   'Costruire forza fondamentale sui big lifts',
@@ -280,7 +464,8 @@
                   'Migliorare economia di corsa con la forza'
                 ],
                 frequency: '3 Strength + 3-4 Running',
-                duration: '12 settimane'
+                duration: '12 settimane',
+                ctaText: 'INIZIA IL PROGRAMMA E'
               };
             }
 
@@ -288,11 +473,10 @@
               return {
                 name: 'PROGRAMMA C',
                 title: 'Il Novizio Totale',
-                emoji: '🌱',
-                color: 'from-yellow-600 to-amber-600',
+                symbol: 'ᛉ',
+                gradient: 'from-stone-900 via-neutral-900 to-stone-950',
                 profile: 'Lifter Principiante + Runner Principiante',
-                description:
-                  'Stai iniziando il tuo viaggio hybrid! Focus su tecnica, consistenza e costruzione di fondamenta solide.',
+                description: 'Stai iniziando il tuo viaggio hybrid! Focus su tecnica, consistenza e costruzione di fondamenta solide.',
                 focus: [
                   'Apprendimento tecnico prioritario su tutto',
                   'Volume ridotto e focus sulla consistenza',
@@ -300,18 +484,18 @@
                   'Prevenzione infortuni e movimento corretto'
                 ],
                 frequency: '3 Strength + 3 Running',
-                duration: '12 settimane'
+                duration: '12 settimane',
+                ctaText: 'INIZIA IL PROGRAMMA C'
               };
             }
 
             return {
               name: 'PROGRAMMA B',
               title: "L'Equilibrato",
-              emoji: '⚖️',
-              color: 'from-green-600 to-emerald-600',
+              symbol: 'ᚼ',
+              gradient: 'from-zinc-900 via-stone-900 to-neutral-950',
               profile: 'Lifter Intermedio + Runner Principiante/Intermedio',
-              description:
-                'Hai una buona base! Continua a svilupparti in modo bilanciato su entrambi i fronti.',
+              description: 'Hai una buona base! Continua a svilupparti in modo bilanciato su entrambi i fronti.',
               focus: [
                 'Sviluppo continuo della forza con volume moderato',
                 'Progressione aerobica costante',
@@ -319,92 +503,130 @@
                 'Crescita bilanciata senza sacrifici'
               ],
               frequency: '3 Strength + 3 Running',
-              duration: '12 settimane'
+              duration: '12 settimane',
+              ctaText: 'INIZIA IL PROGRAMMA B'
             };
           };
 
+          const calculateProjectedScore = (currentScore) => {
+            // Conservative 12-15% improvement estimate
+            const improvementRate = currentScore < 80 ? 0.15 : currentScore < 100 ? 0.12 : 0.08;
+            return Math.min(Math.round(currentScore * (1 + improvementRate)), 120);
+          };
+
           const generateInstagramStory = async () => {
-            if (!results) {
-              alert('❌ Nessun risultato da condividere. Completa prima la valutazione.');
-              return;
-            }
+            if (!results) return;
 
             const canvas = canvasRef.current;
-            if (!canvas) {
-              alert('❌ Errore tecnico. Ricarica la pagina e riprova.');
-              return;
-            }
+            if (!canvas) return;
 
             try {
               const ctx = canvas.getContext('2d');
               const width = 1080;
               const height = 1920;
-
               canvas.width = width;
               canvas.height = height;
 
               const gradient = ctx.createLinearGradient(0, 0, 0, height);
-              gradient.addColorStop(0, '#0f172a');
-              gradient.addColorStop(0.5, '#1e293b');
-              gradient.addColorStop(1, '#0f172a');
+              gradient.addColorStop(0, '#1A1A1A');
+              gradient.addColorStop(0.5, '#252525');
+              gradient.addColorStop(1, '#1A1A1A');
               ctx.fillStyle = gradient;
               ctx.fillRect(0, 0, width, height);
 
-              ctx.fillStyle = '#ffffff';
-              ctx.font = 'bold 80px Arial';
+              ctx.strokeStyle = 'rgba(201, 162, 39, 0.3)';
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(100, 280);
+              ctx.lineTo(width - 100, 280);
+              ctx.stroke();
+
+              ctx.fillStyle = '#C9A227';
+              ctx.font = '700 72px Cinzel, serif';
               ctx.textAlign = 'center';
               ctx.fillText('HYBRID ATHLETE', width / 2, 200);
 
               const status = getOverallPerformance(results.avgScore);
-              ctx.font = '200px Arial';
-              ctx.fillText(status.emoji, width / 2, 450);
+              ctx.font = '220px serif';
+              ctx.fillStyle = '#C9A227';
+              ctx.fillText(status.symbol, width / 2, 520);
 
-              ctx.font = 'bold 60px Arial';
-              ctx.fillStyle = '#fbbf24';
-              ctx.fillText(status.text, width / 2, 600);
+              ctx.font = '600 52px Cinzel, serif';
+              ctx.fillStyle = '#F5F2E9';
+              ctx.fillText(status.text, width / 2, 620);
 
-              ctx.font = 'bold 180px Arial';
-              ctx.fillStyle = '#ffffff';
-              ctx.fillText(results.avgScore.toString(), width / 2, 820);
+              ctx.font = '700 180px Barlow, sans-serif';
+              ctx.fillStyle = '#C9A227';
+              ctx.fillText(results.avgScore.toString(), width / 2, 850);
 
-              ctx.font = '40px Arial';
-              ctx.fillStyle = '#94a3b8';
-              ctx.fillText('Punteggio Medio', width / 2, 880);
+              ctx.font = '400 32px Barlow, sans-serif';
+              ctx.fillStyle = '#888';
+              ctx.fillText('PUNTEGGIO TOTALE', width / 2, 910);
 
-              ctx.font = 'bold 50px Arial';
-              ctx.fillStyle = '#60a5fa';
-              ctx.fillText(`${results.completedTests}/${results.totalPossibleTests} Test Completati`, width / 2, 980);
+              ctx.font = '400 36px Barlow, sans-serif';
+              ctx.fillStyle = '#7FB3D5';
+              ctx.fillText(`Categoria: ${results.category}`, width / 2, 990);
 
-              ctx.font = '40px Arial';
-              ctx.fillStyle = '#cbd5e1';
-              ctx.fillText(`Categoria: ${results.category}`, width / 2, 1060);
+              ctx.strokeStyle = 'rgba(201, 162, 39, 0.2)';
+              ctx.beginPath();
+              ctx.moveTo(150, 1060);
+              ctx.lineTo(width - 150, 1060);
+              ctx.stroke();
 
-              if (results.recommendedProgram) {
-                ctx.fillStyle = '#1e293b';
-                ctx.fillRect(100, 1150, width - 200, 350);
+              let yPos = 1160;
+              
+              results.tests.forEach((test) => {
+                const perf = getPerformanceLevel(test.score);
                 
-                ctx.fillStyle = '#fbbf24';
-                ctx.font = 'bold 45px Arial';
-                ctx.fillText('PROGRAMMA CONSIGLIATO', width / 2, 1230);
+                ctx.fillStyle = 'rgba(201, 162, 39, 0.08)';
+                ctx.fillRect(120, yPos - 70, width - 240, 200);
                 
-                ctx.font = '100px Arial';
-                ctx.fillText(results.recommendedProgram.emoji, width / 2, 1360);
+                ctx.font = '80px serif';
+                ctx.fillStyle = '#C9A227';
+                ctx.textAlign = 'left';
+                ctx.fillText(test.symbol, 160, yPos + 20);
                 
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 50px Arial';
-                ctx.fillText(results.recommendedProgram.title, width / 2, 1450);
-              }
+                ctx.font = '600 44px Cinzel, serif';
+                ctx.fillStyle = '#F5F2E9';
+                ctx.fillText(test.name.toUpperCase(), 280, yPos - 10);
+                
+                ctx.font = '500 36px Barlow, sans-serif';
+                ctx.fillStyle = '#AAA';
+                const valueText = test.displayValue ? test.displayValue : `${test.value} ${test.unit}`;
+                ctx.fillText(valueText, 280, yPos + 40);
+                
+                if (test.ratio) {
+                  ctx.font = '400 30px Barlow, sans-serif';
+                  ctx.fillStyle = '#777';
+                  ctx.fillText(`${test.ratio}x BW`, 280, yPos + 85);
+                }
+                
+                ctx.textAlign = 'right';
+                ctx.font = '700 72px Barlow, sans-serif';
+                ctx.fillStyle = '#C9A227';
+                ctx.fillText(test.score.toString(), width - 160, yPos + 10);
+                
+                ctx.font = '600 28px Barlow, sans-serif';
+                ctx.fillStyle = '#888';
+                ctx.fillText(`${perf.symbol} ${perf.level.toUpperCase()}`, width - 160, yPos + 55);
+                
+                ctx.textAlign = 'center';
+                yPos += 240;
+              });
 
-              ctx.fillStyle = '#64748b';
-              ctx.font = '35px Arial';
-              ctx.fillText('nicholasrubini.it', width / 2, height - 100);
+              ctx.strokeStyle = 'rgba(201, 162, 39, 0.2)';
+              ctx.beginPath();
+              ctx.moveTo(150, yPos - 20);
+              ctx.lineTo(width - 150, yPos - 20);
+              ctx.stroke();
+
+              ctx.fillStyle = '#666';
+              ctx.font = '400 32px Barlow, sans-serif';
+              ctx.textAlign = 'center';
+              ctx.fillText('nicholasrubini.it', width / 2, height - 120);
 
               canvas.toBlob((blob) => {
-                if (!blob) {
-                  alert("❌ Errore nella creazione dell'immagine. Riprova.");
-                  return;
-                }
-
+                if (!blob) return;
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
@@ -413,433 +635,473 @@
                 link.click();
                 document.body.removeChild(link);
                 URL.revokeObjectURL(url);
-
-                alert('✅ Immagine scaricata! Controlla la cartella Download.');
               }, 'image/png');
             } catch (error) {
-              console.error('Error generating image:', error);
-              alert('❌ Errore: ' + error.message + '. Prova a fare uno screenshot.');
+              console.error('Error:', error);
             }
           };
 
           const calculateResults = () => {
             const w = parseFloat(weight);
 
-            if (!weight) {
-              alert('❌ Peso è obbligatorio');
+            if (!weight || !squat || !run5k) {
+              alert('Completa tutti i campi obbligatori.');
               return;
             }
 
             const category = getWeightCategory(w);
-
             if (!category) {
-              alert('❌ Peso deve essere tra 65-95kg');
+              alert('Peso deve essere tra 65-95kg');
               return;
             }
 
-            if (!squat) {
-              alert('❌ Squat è obbligatorio (test di forza)');
-              return;
-            }
+            setIsCalculating(true);
+            
+            setTimeout(() => {
+              const std = standards[category];
+              const squatStandard = w * std.squatRatio;
+              const tests = [];
 
-            if (!run5k) {
-              alert('❌ Compila il tempo sui 5k (test di resistenza obbligatorio)');
-              return;
-            }
+              const squatValue = parseFloat(squat);
+              tests.push({
+                name: 'Squat',
+                value: squatValue,
+                standard: squatStandard,
+                displayStandard: squatStandard.toFixed(1),
+                ratio: (squatValue / w).toFixed(2),
+                standardRatio: std.squatRatio,
+                unit: 'kg',
+                score: calculateScore(squatValue, squatStandard, false),
+                higher: true,
+                symbol: 'ᚦ',
+                completed: true
+              });
 
-            const std = standards[category];
-            const squatStandard = w * std.squatRatio;
+              const run5kSec = timeToSeconds(run5k);
+              tests.push({
+                name: '5k Run',
+                value: run5kSec,
+                standard: std.run5k,
+                displayValue: run5k,
+                displayStandard: secondsToTime(std.run5k),
+                unit: '',
+                score: calculateScore(run5kSec, std.run5k, true),
+                higher: false,
+                symbol: 'ᚱ',
+                completed: true
+              });
 
-            const tests = [];
-            let completedTests = 0;
-            const totalPossibleTests = 2;
+              const avgScore = Math.round(tests.reduce((sum, t) => sum + t.score, 0) / tests.length);
 
-            const squatValue = parseFloat(squat);
-            tests.push({
-              name: 'Squat',
-              value: squatValue,
-              standard: squatStandard,
-              displayStandard: squatStandard.toFixed(1),
-              ratio: (squatValue / w).toFixed(2),
-              standardRatio: std.squatRatio,
-              unit: 'kg',
-              score: calculateScore(squatValue, squatStandard, false),
-              higher: true,
-              icon: '💪',
-              completed: true,
-              required: true
-            });
-            completedTests++;
+              setResults({
+                category: std.name,
+                tests,
+                avgScore,
+                completedTests: 2,
+                totalPossibleTests: 2,
+                recommendedProgram: getRecommendedProgram(tests),
+                projectedScore: calculateProjectedScore(avgScore)
+              });
+              
+              setIsCalculating(false);
+              
+              setTimeout(() => {
+                resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 100);
+            }, 800);
+          };
 
-            const run5kSec = timeToSeconds(run5k);
-            tests.push({
-              name: '5k Run',
-              value: run5kSec,
-              standard: std.run5k,
-              displayValue: run5k,
-              displayStandard: secondsToTime(std.run5k),
-              unit: '',
-              score: calculateScore(run5kSec, std.run5k, true),
-              higher: false,
-              icon: '🏃‍♂️',
-              completed: true,
-              required: true
-            });
-            completedTests++;
-
-            const completedTestsWithScores = tests.filter((t) => t.completed && t.score !== undefined);
-            const avgScore = Math.round(
-              completedTestsWithScores.reduce((sum, test) => sum + test.score, 0) /
-                completedTestsWithScores.length
-            );
-
-            setResults({
-              category: std.name,
-              tests,
-              avgScore,
-              completedTests,
-              totalPossibleTests,
-              isPartial: completedTests < totalPossibleTests,
-              recommendedProgram: getRecommendedProgram(tests)
-            });
+          const getGapBarColor = (score) => {
+            if (score >= 100) return 'bg-gradient-to-r from-amber-600 to-amber-400';
+            if (score >= 90) return 'bg-gradient-to-r from-sky-700 to-sky-500';
+            if (score >= 80) return 'bg-gradient-to-r from-amber-800 to-amber-600';
+            return 'bg-gradient-to-r from-stone-700 to-stone-500';
           };
 
           return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 md:p-8">
-              <div className="max-w-4xl mx-auto">
-                <div className="text-center mb-6 md:mb-8">
-                  <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
-                    <Zap className="w-8 h-8 md:w-10 md:h-10 text-yellow-400" />
-                    <h1 className="text-3xl md:text-5xl font-bold text-white">Hybrid Athlete</h1>
-                    <Activity className="w-8 h-8 md:w-10 md:h-10 text-blue-400" />
+            <div className="min-h-screen norse-pattern" style={{ background: 'linear-gradient(180deg, #1A1A1A 0%, #252525 50%, #1A1A1A 100%)' }}>
+              <div className={`max-w-3xl mx-auto px-4 py-8 md:py-12 main-content ${results ? 'has-results' : ''}`}>
+                
+                {/* Header */}
+                <header className="text-center mb-10 md:mb-14 runic-border pb-8">
+                  <div className="flex items-center justify-center gap-3 md:gap-4 mb-4">
+                    <AxeIcon className="w-8 h-8 md:w-10 md:h-10 text-amber-500" />
+                    <h1 className="font-cinzel text-3xl md:text-5xl font-bold text-stone-100 tracking-wide gold-glow">
+                      HYBRID ATHLETE
+                    </h1>
+                    <ShieldIcon className="w-8 h-8 md:w-10 md:h-10 text-amber-500" />
                   </div>
-                  <p className="text-slate-300 text-base md:text-lg">Valutazione Performance Completa</p>
-                  <p className="text-slate-400 text-xs md:text-sm mt-2">
-                    Forte. Esplosivo. Veloce. Resistente. In salute.
+                  <p className="font-barlow text-stone-400 text-sm md:text-base tracking-widest uppercase">
+                    Valutazione Performance
                   </p>
-                </div>
+                  <p className="font-barlow text-stone-600 text-xs md:text-sm mt-3 italic">
+                    Forte • Esplosivo • Veloce • Resistente
+                  </p>
+                </header>
 
-                <div className="bg-slate-800 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl mb-6 md:mb-8 border border-slate-700">
-                  <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6 flex items-center gap-2">
-                    <Target className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />
-                    I Tuoi Dati
-                  </h2>
+                {/* Input Card */}
+                <section className="carved-card rounded-lg p-6 md:p-8 mb-8">
+                  <div className="flex items-center gap-3 mb-6 pb-4 border-b border-amber-900/30">
+                    <HelmIcon className="w-5 h-5 md:w-6 md:h-6 text-amber-500" />
+                    <h2 className="font-cinzel text-xl md:text-2xl font-semibold text-stone-100">
+                      I Tuoi Dati
+                    </h2>
+                  </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
                     <div>
-                      <label className="block text-slate-300 mb-2 font-medium">
-                        Peso (kg) <span className="text-red-400">*</span>
+                      <label className="block text-stone-400 mb-2 font-barlow text-sm font-medium tracking-wide">
+                        PESO <span className="text-amber-600">*</span>
                       </label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={weight}
-                        onChange={(e) => setWeight(e.target.value)}
-                        className="w-full bg-slate-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                      />
+                      <div className="relative">
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={weight}
+                          onChange={(e) => setWeight(e.target.value)}
+                          placeholder="75"
+                          className="norse-input w-full text-stone-100 px-4 py-3.5 rounded font-barlow text-lg"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-600 text-sm">kg</span>
+                      </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-300 mb-2 font-medium">
-                        Squat (kg) <span className="text-red-400">*</span>
+                      <label className="block text-stone-400 mb-2 font-barlow text-sm font-medium tracking-wide">
+                        SQUAT <span className="text-amber-600">*</span>
                       </label>
-                      <input
-                        type="number"
-                        step="0.5"
-                        value={squat}
-                        onChange={(e) => setSquat(e.target.value)}
-                        className="w-full bg-slate-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                      />
+                      <div className="relative">
+                        <input
+                          type="number"
+                          step="0.5"
+                          value={squat}
+                          onChange={(e) => setSquat(e.target.value)}
+                          placeholder="140"
+                          className="norse-input w-full text-stone-100 px-4 py-3.5 rounded font-barlow text-lg"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-600 text-sm">kg</span>
+                      </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-300 mb-2 font-medium">
-                        5k Run (mm:ss) <span className="text-red-400 text-sm">- obbligatorio *</span>
+                      <label className="block text-stone-400 mb-2 font-barlow text-sm font-medium tracking-wide">
+                        5K RUN <span className="text-amber-600">*</span>
                       </label>
                       <input
                         type="text"
                         value={run5k}
                         onChange={(e) => setRun5k(e.target.value)}
-                        className="w-full bg-slate-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                        placeholder="22:30"
+                        className="norse-input w-full text-stone-100 px-4 py-3.5 rounded font-barlow text-lg"
                       />
                     </div>
                   </div>
 
-                  <div className="mt-4 p-3 bg-slate-700 bg-opacity-50 rounded-lg border border-slate-600">
-                    <p className="text-slate-400 text-xs">
-                      <span className="text-red-400">*</span> = Obbligatorio
-                    </p>
-                  </div>
-
                   <button
                     onClick={calculateResults}
-                    className="w-full mt-6 md:mt-8 bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 font-bold py-4 md:py-5 rounded-lg hover:from-yellow-500 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg text-base md:text-lg"
+                    disabled={isCalculating}
+                    className="btn-forge w-full mt-8 text-stone-900 font-cinzel font-bold py-4 md:py-5 rounded text-base md:text-lg tracking-wide disabled:opacity-50"
                   >
-                    VALUTA PERFORMANCE
+                    {isCalculating ? 'FORGIANDO...' : 'FORGIA LA TUA VALUTAZIONE'}
                   </button>
-                </div>
+                </section>
 
+                {/* Results */}
                 {results && (
-                  <div className="space-y-6">
-                    <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl border border-slate-600">
-                      <div className="text-center">
-                        <div className="text-5xl md:text-6xl mb-3 md:mb-4">
-                          {getOverallPerformance(results.avgScore).emoji}
+                  <div ref={resultsRef} className="space-y-6 animate-in">
+                    
+                    {/* Main Score */}
+                    <section className="carved-card rounded-lg p-6 md:p-10 text-center delay-1 animate-in">
+                      <div className="mb-6">
+                        <span className="text-6xl md:text-8xl text-amber-500 font-light" style={{ fontFamily: 'serif' }}>
+                          {getOverallPerformance(results.avgScore).symbol}
+                        </span>
+                      </div>
+                      
+                      <h3 className={`font-cinzel text-2xl md:text-4xl font-bold mb-2 ${getOverallPerformance(results.avgScore).color}`}>
+                        {getOverallPerformance(results.avgScore).text}
+                      </h3>
+                      
+                      <p className="font-barlow text-stone-500 text-sm md:text-base mb-6">
+                        {getOverallPerformance(results.avgScore).desc}
+                      </p>
+                      
+                      <div className="inline-flex items-center gap-6 md:gap-10">
+                        <div className="score-ring w-28 h-28 md:w-36 md:h-36 rounded-full flex flex-col items-center justify-center" style={{ background: 'rgba(201, 162, 39, 0.1)' }}>
+                          <span className="font-barlow text-4xl md:text-5xl font-bold text-amber-400">{results.avgScore}</span>
+                          <span className="font-barlow text-stone-500 text-xs tracking-wider">SCORE</span>
                         </div>
-                        <h3
-                          className={`text-2xl md:text-3xl font-bold mb-2 ${getOverallPerformance(results.avgScore).color}`}
-                        >
-                          {getOverallPerformance(results.avgScore).text}
-                        </h3>
-                        <p className="text-slate-400 text-xs md:text-sm mb-3 md:mb-4">
-                          {getOverallPerformance(results.avgScore).desc}
-                        </p>
-                        <p className="text-slate-300 text-base md:text-lg mb-3 md:mb-4">
-                          Categoria: {results.category}
-                        </p>
-                        
-                        {results.isPartial && (
-                          <div className="bg-yellow-900 bg-opacity-30 border border-yellow-600 rounded-lg p-3 mb-4 mx-auto max-w-md">
-                            <p className="text-yellow-400 text-xs md:text-sm font-medium">⚠️ Valutazione Parziale</p>
-                            <p className="text-yellow-300 text-xs mt-1">
-                              Completa tutti i test per una valutazione completa
-                            </p>
-                          </div>
-                        )}
-                        
-                        <div className="flex items-center justify-center gap-4 md:gap-6">
-                          <div>
-                            <div className="text-4xl md:text-5xl font-bold text-white">{results.avgScore}</div>
-                            <div className="text-slate-400 text-xs md:text-sm mt-1">Punteggio Medio</div>
-                          </div>
-                          <div className="text-slate-500 text-3xl md:text-4xl">•</div>
-                          <div>
-                            <div className="text-2xl md:text-3xl font-bold text-blue-400">
-                              {results.completedTests}/{results.totalPossibleTests}
-                            </div>
-                            <div className="text-slate-400 text-xs md:text-sm mt-1">Test Completati</div>
-                          </div>
+                        <div className="text-left">
+                          <p className="font-barlow text-stone-400 text-sm">Categoria</p>
+                          <p className="font-cinzel text-stone-200 text-lg md:text-xl font-semibold">{results.category}</p>
+                          <p className="font-barlow text-sky-400 text-sm mt-2">{results.completedTests}/{results.totalPossibleTests} Test</p>
                         </div>
                       </div>
-                    </div>
+                    </section>
 
-                    {results.recommendedProgram && (
-                      <div
-                        className={`bg-gradient-to-r ${results.recommendedProgram.color} rounded-2xl p-6 md:p-8 shadow-2xl border-2 border-white border-opacity-20`}
-                      >
-                        <div className="text-center mb-4 md:mb-6">
-                          <div className="text-4xl md:text-5xl mb-2 md:mb-3">
-                            {results.recommendedProgram.emoji}
-                          </div>
-                          <h3 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2">
-                            {results.recommendedProgram.name}: {results.recommendedProgram.title}
+                    {/* GAP ANALYSIS - NEW */}
+                    <section className="carved-card rounded-lg p-6 md:p-8 delay-2 animate-in">
+                      <h3 className="font-cinzel text-lg md:text-xl font-semibold text-stone-100 mb-6 flex items-center gap-2">
+                        <span className="text-amber-500">ᛗ</span> Analisi del Gap
+                      </h3>
+                      
+                      <div className="space-y-6">
+                        {results.tests.map((test, idx) => {
+                          const perf = getPerformanceLevel(test.score);
+                          const gap = 100 - test.score;
+                          const barWidth = Math.min(test.score, 120);
+                          
+                          return (
+                            <div key={idx}>
+                              <div className="flex justify-between items-center mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xl text-amber-500/80" style={{ fontFamily: 'serif' }}>{test.symbol}</span>
+                                  <span className="font-cinzel text-stone-200 font-medium">{test.name}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <span className={`font-barlow text-2xl font-bold ${perf.color}`}>{test.score}</span>
+                                  {gap > 0 && (
+                                    <span className="font-barlow text-xs text-stone-500 bg-stone-800 px-2 py-1 rounded">
+                                      -{gap} dallo standard
+                                    </span>
+                                  )}
+                                  {gap <= 0 && (
+                                    <span className="font-barlow text-xs text-amber-400 bg-amber-900/30 px-2 py-1 rounded">
+                                      +{Math.abs(gap)} sopra!
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <div className="gap-bar">
+                                <div 
+                                  className={`gap-bar-fill ${getGapBarColor(test.score)}`}
+                                  style={{ width: `${barWidth}%` }}
+                                />
+                                <div className="gap-bar-standard" style={{ left: 'calc(100% * 100 / 120 - 1.5px)' }} />
+                              </div>
+                              
+                              <div className="flex justify-between mt-2 font-barlow text-xs text-stone-500">
+                                <span>{test.displayValue || test.value} {test.unit}</span>
+                                <span>Standard: {test.displayStandard} {test.unit}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </section>
+
+                    {/* PROJECTION - NEW */}
+                    <section className="carved-card rounded-lg p-6 md:p-8 delay-2 animate-in projection-glow border border-amber-900/30">
+                      <div className="flex items-start gap-4">
+                        <div className="p-3 bg-amber-900/30 rounded-lg">
+                          <TrendUpIcon className="w-6 h-6 text-amber-400" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-cinzel text-lg md:text-xl font-semibold text-stone-100 mb-2">
+                            Dove potresti arrivare
                           </h3>
-                          <p className="text-white text-opacity-90 text-xs md:text-sm font-medium mb-1">
-                            {results.recommendedProgram.profile}
+                          <p className="font-barlow text-stone-400 text-sm mb-4">
+                            Con il programma giusto, in 12 settimane:
+                          </p>
+                          
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="text-center">
+                              <span className="font-barlow text-stone-500 text-xs block mb-1">OGGI</span>
+                              <span className="font-barlow text-2xl font-bold text-stone-400">{results.avgScore}</span>
+                            </div>
+                            <div className="flex-1 h-px bg-gradient-to-r from-stone-600 via-amber-500 to-amber-400 relative">
+                              <ArrowIcon className="w-5 h-5 text-amber-400 absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2" />
+                            </div>
+                            <div className="text-center">
+                              <span className="font-barlow text-amber-400 text-xs block mb-1">12 SETTIMANE</span>
+                              <span className="font-barlow text-3xl font-bold text-amber-400">{results.projectedScore}</span>
+                            </div>
+                          </div>
+                          
+                          <p className="font-barlow text-stone-500 text-xs">
+                            {results.avgScore < 100 
+                              ? `Solo ${100 - results.avgScore} punti ti separano dallo standard. Con costanza e il metodo giusto, è assolutamente raggiungibile.`
+                              : 'Sei già sopra lo standard! Il programma ti aiuterà a consolidare e raggiungere il livello Elite.'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </section>
+
+                    {/* Recommended Program */}
+                    {results.recommendedProgram && (
+                      <section className={`rounded-lg p-6 md:p-8 delay-2 animate-in bg-gradient-to-br ${results.recommendedProgram.gradient} border border-amber-900/20`}>
+                        <div className="text-center mb-6">
+                          <span className="text-5xl md:text-6xl text-amber-400/80" style={{ fontFamily: 'serif' }}>
+                            {results.recommendedProgram.symbol}
+                          </span>
+                          <h3 className="font-cinzel text-xl md:text-2xl font-bold text-stone-100 mt-3">
+                            {results.recommendedProgram.name}
+                          </h3>
+                          <p className="font-barlow text-amber-400/90 text-sm font-medium">
+                            {results.recommendedProgram.title}
                           </p>
                         </div>
 
-                        <div className="bg-black bg-opacity-20 rounded-xl p-4 md:p-6 mb-4">
-                          <p className="text-white text-center leading-relaxed text-sm md:text-base">
+                        <div className="bg-black/20 rounded p-4 md:p-5 mb-5">
+                          <p className="font-barlow text-stone-300 text-center text-sm md:text-base leading-relaxed">
                             {results.recommendedProgram.description}
                           </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-6">
-                          <div className="bg-black bg-opacity-20 rounded-lg p-4">
-                            <h4 className="text-white font-bold mb-3 flex items-center gap-2 text-sm md:text-base">
-                              <Target className="w-4 h-4 md:w-5 md:h-5" />
-                              Focus del Programma
-                            </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                          <div className="bg-black/20 rounded p-4">
+                            <h4 className="font-cinzel text-amber-400/90 font-semibold mb-3 text-sm">Focus</h4>
                             <ul className="space-y-2">
                               {results.recommendedProgram.focus.map((item, idx) => (
-                                <li
-                                  key={idx}
-                                  className="text-white text-opacity-90 text-xs md:text-sm flex items-start gap-2"
-                                >
-                                  <span className="text-yellow-300 mt-0.5">•</span>
+                                <li key={idx} className="font-barlow text-stone-400 text-xs md:text-sm flex items-start gap-2">
+                                  <span className="text-amber-500 mt-0.5">•</span>
                                   <span>{item}</span>
                                 </li>
                               ))}
                             </ul>
                           </div>
-
-                          <div className="bg-black bg-opacity-20 rounded-lg p-4">
-                            <h4 className="text-white font-bold mb-3 flex items-center gap-2 text-sm md:text-base">
-                              <Activity className="w-4 h-4 md:w-5 md:h-5" />
-                              Struttura
-                            </h4>
+                          <div className="bg-black/20 rounded p-4">
+                            <h4 className="font-cinzel text-amber-400/90 font-semibold mb-3 text-sm">Struttura</h4>
                             <div className="space-y-3">
                               <div>
-                                <p className="text-white text-opacity-70 text-xs mb-1">Frequenza</p>
-                                <p className="text-white font-bold text-sm md:text-base">
-                                  {results.recommendedProgram.frequency}
-                                </p>
+                                <p className="font-barlow text-stone-500 text-xs">Frequenza</p>
+                                <p className="font-barlow text-stone-200 font-semibold">{results.recommendedProgram.frequency}</p>
                               </div>
                               <div>
-                                <p className="text-white text-opacity-70 text-xs mb-1">Durata</p>
-                                <p className="text-white font-bold text-sm md:text-base">
-                                  {results.recommendedProgram.duration}
-                                </p>
+                                <p className="font-barlow text-stone-500 text-xs">Durata</p>
+                                <p className="font-barlow text-stone-200 font-semibold">{results.recommendedProgram.duration}</p>
                               </div>
                             </div>
                           </div>
                         </div>
 
+                        {/* CTA PERSONALIZZATO */}
                         <div className="text-center">
-                          <p className="text-white text-opacity-80 text-xs md:text-sm mb-4">
-                            💡 Questo programma è stato selezionato in base ai tuoi punti di forza e aree di
-                            miglioramento
-                          </p>
                           <a
                             href="https://www.nicholasrubini.it/prodotto/scheda-hybrid-athlete/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 bg-white text-slate-900 font-bold px-6 md:px-8 py-4 rounded-lg hover:bg-slate-100 transition-all transform hover:scale-105 shadow-xl text-sm md:text-base"
+                            className="btn-forge inline-flex items-center gap-2 text-stone-900 font-cinzel font-bold px-6 md:px-8 py-3.5 md:py-4 rounded text-sm md:text-base"
                           >
-                            <Zap className="w-4 h-4 md:w-5 md:h-5" />
-                            SCOPRI IL PROGRAMMA
-                            <ExternalLink className="w-4 h-4 md:w-5 md:h-5" />
+                            {results.recommendedProgram.ctaText}
+                            <ArrowIcon className="w-4 h-4 md:w-5 md:h-5" />
                           </a>
+                          <p className="font-barlow text-stone-500 text-xs mt-3">
+                            Il programma selezionato in base ai tuoi risultati
+                          </p>
                         </div>
-                      </div>
+                      </section>
                     )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                    {/* Individual Tests */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 delay-3 animate-in">
                       {results.tests.map((test, idx) => {
-                        if (!test.completed) {
-                          return (
-                            <div
-                              key={idx}
-                              className="rounded-xl p-4 md:p-5 border-2 border-slate-600 bg-slate-700 bg-opacity-50"
-                            >
-                              <div className="flex items-start justify-between mb-2 md:mb-3">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-xl md:text-2xl opacity-50">{test.icon}</span>
-                                  <h4 className="font-bold text-base md:text-lg text-slate-400">{test.name}</h4>
-                                </div>
-                                <span className="px-2 md:px-3 py-1 rounded-full text-xs font-bold bg-slate-600 text-slate-400">
-                                  {test.required ? '⚠️ RICHIESTO' : '⭕ OPZ'}
-                                </span>
-                              </div>
-                              <div className="text-center py-3 md:py-4">
-                                <p className="text-slate-500 text-xs md:text-sm">Non disponibile</p>
-                                <p className="text-slate-600 text-xs mt-1">Compila per vedere la valutazione</p>
-                              </div>
-                            </div>
-                          );
-                        }
-
                         const perf = getPerformanceLevel(test.score);
                         return (
-                          <div key={idx} className={`rounded-xl p-4 md:p-5 border-2 ${perf.color}`}>
-                            <div className="flex items-start justify-between mb-2 md:mb-3">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xl md:text-2xl">{test.icon}</span>
-                                <h4 className="font-bold text-base md:text-lg">{test.name}</h4>
+                          <div key={idx} className="carved-card rounded-lg p-5 md:p-6">
+                            <div className="flex items-start justify-between mb-4">
+                              <div className="flex items-center gap-3">
+                                <span className="text-2xl md:text-3xl text-amber-500/80" style={{ fontFamily: 'serif' }}>{test.symbol}</span>
+                                <div>
+                                  <h4 className="font-cinzel font-semibold text-stone-100">{test.name}</h4>
+                                  <span className={`inline-block px-2 py-0.5 rounded text-xs font-barlow font-medium text-white mt-1 ${perf.badgeClass}`}>
+                                    {perf.symbol} {perf.level}
+                                  </span>
+                                </div>
                               </div>
                               <div className="text-right">
-                                <div
-                                  className={`px-2 md:px-3 py-1 rounded-full text-xs font-bold ${perf.badge} text-white mb-1`}
-                                >
-                                  {perf.emoji} {perf.level}
-                                </div>
-                                <div className="text-xl md:text-2xl font-bold">{test.score}</div>
+                                <span className="font-barlow text-2xl md:text-3xl font-bold text-stone-100">{test.score}</span>
                               </div>
                             </div>
                             
-                            <div className="space-y-2">
-                              <div className="flex justify-between items-center">
-                                <span className="text-xs md:text-sm font-medium">Il tuo valore:</span>
-                                <span className="font-bold text-sm md:text-base">
+                            <div className="space-y-2 text-sm font-barlow">
+                              <div className="flex justify-between">
+                                <span className="text-stone-500">Il tuo valore</span>
+                                <span className="text-stone-200 font-semibold">
                                   {test.displayValue || test.value} {test.unit}
                                 </span>
                               </div>
-                              <div className="flex justify-between items-center">
-                                <span className="text-xs md:text-sm font-medium">Standard:</span>
-                                <span className="font-bold text-sm md:text-base">
+                              <div className="flex justify-between">
+                                <span className="text-stone-500">Standard</span>
+                                <span className="text-stone-400">
                                   {test.higher ? '>' : '<'} {test.displayStandard || test.standard} {test.unit}
                                 </span>
                               </div>
                               {test.ratio && (
-                                <div className="flex justify-between items-center pt-2 border-t border-current border-opacity-20">
-                                  <span className="text-xs">Rapporto:</span>
-                                  <span className="text-xs md:text-sm font-bold">
-                                    {test.ratio}x vs {test.standardRatio}x
+                                <div className="flex justify-between pt-2 border-t border-stone-800">
+                                  <span className="text-stone-500">Rapporto</span>
+                                  <span className="text-amber-400 font-medium">
+                                    {test.ratio}x <span className="text-stone-600">vs {test.standardRatio}x</span>
                                   </span>
                                 </div>
                               )}
-                              <div className="mt-2 md:mt-3 bg-white bg-opacity-20 rounded-full h-2 overflow-hidden">
-                                <div
-                                  className={`h-full ${perf.badge} transition-all duratazione-500`}
-                                  style={{ width: `${Math.min(test.score, 150)}%` }}
-                                />
-                              </div>
+                            </div>
+                            
+                            <div className="mt-4 progress-forge rounded-full h-2">
+                              <div
+                                className="progress-forge-fill h-full rounded-full transition-all duration-700"
+                                style={{ width: `${Math.min(test.score, 120)}%` }}
+                              />
                             </div>
                           </div>
                         );
                       })}
                     </div>
 
-                    <div className="bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl p-4 md:p-6 shadow-2xl border-2 border-white border-opacity-20">
-                      <div className="text-center">
-                        <h3 className="text-xl md:text-2xl font-bold text-white mb-2 md:mb-3">
-                          Condividi i tuoi risultati! 📸
-                        </h3>
-                        <p className="text-white text-opacity-90 text-xs md:text-sm mb-4">
-                          Scarica un'immagine ottimizzata per Instagram Story e mostra le tue performance ai tuoi amici
-                        </p>
-                        <button
-                          onClick={generateInstagramStory}
-                          className="inline-flex items-center gap-2 bg-white text-purple-600 font-bold px-6 md:px-8 py-4 rounded-lg hover:bg-purple-50 transition-all transform hover:scale-105 shadow-xl text-sm md:text-base"
-                        >
-                          <Share2 className="w-4 h-4 md:w-5 md:h-5" />
-                          CONDIVIDI SU INSTAGRAM
-                          <Download className="w-4 h-4 md:w-5 md:h-5" />
-                        </button>
-                        <p className="text-white text-opacity-70 text-xs mt-3">
-                          L'immagine verrà scaricata automaticamente sul tuo dispositivo
-                        </p>
+                    {/* Share Section */}
+                    <section className="carved-card rounded-lg p-5 md:p-6 text-center delay-4 animate-in border border-amber-900/20">
+                      <p className="font-cinzel text-stone-300 mb-4 text-sm md:text-base">Condividi i tuoi risultati</p>
+                      <button
+                        onClick={generateInstagramStory}
+                        className="inline-flex items-center gap-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-barlow font-medium px-5 py-3 rounded transition-all text-sm"
+                      >
+                        <DownloadIcon className="w-4 h-4" />
+                        SCARICA IMMAGINE
+                      </button>
+                    </section>
+
+                    {/* Score Legend */}
+                    <section className="text-center py-6 delay-4 animate-in">
+                      <div className="norse-divider text-xs mb-4">
+                        <span className="font-cinzel tracking-wider">LEGENDA</span>
                       </div>
-                    </div>
+                      <div className="flex flex-wrap justify-center gap-3 md:gap-4 font-barlow text-xs">
+                        <span className="text-purple-400">ᛟ Elite ≥110</span>
+                        <span className="text-amber-400">ᛏ Ottimo 100+</span>
+                        <span className="text-sky-400">ᚱ Buono 90+</span>
+                        <span className="text-amber-600">ᚹ Discreto 80+</span>
+                        <span className="text-stone-500">ᚠ Da forgiare &lt;80</span>
+                      </div>
+                    </section>
                   </div>
                 )}
 
                 <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-                <div className="mt-6 md:mt-8 text-center text-slate-500 text-xs md:text-sm space-y-4">
-                  {results && (
-                    <div className="bg-slate-800 rounded-xl p-4 md:p-6 border border-slate-700 mb-4">
-                      <h4 className="text-slate-300 font-bold mb-3 text-sm md:text-base">Sistema di Punteggio</h4>
-                      <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3 text-xs">
-                        <div className="bg-purple-900 bg-opacity-30 rounded p-2">
-                          <div className="font-bold text-purple-400 text-xs">🏆 Elite</div>
-                          <div className="text-slate-400">≥110</div>
-                        </div>
-                        <div className="bg-green-900 bg-opacity-30 rounded p-2">
-                          <div className="font-bold text-green-400 text-xs">💎 Ottimo</div>
-                          <div className="text-slate-400">100-109</div>
-                        </div>
-                        <div className="bg-blue-900 bg-opacity-30 rounded p-2">
-                          <div className="font-bold text-blue-400 text-xs">⚡ Buono</div>
-                          <div className="text-slate-400">90-99</div>
-                        </div>
-                        <div className="bg-yellow-900 bg-opacity-30 rounded p-2">
-                          <div className="font-bold text-yellow-400 text-xs">📊 Discreto</div>
-                          <div className="text-slate-400">80-89</div>
-                        </div>
-                        <div className="bg-orange-900 bg-opacity-30 rounded p-2 col-span-2 md:col-span-1">
-                          <div className="font-bold text-orange-400 text-xs">📈 Da migliorare</div>
-                          <div className="text-slate-400">&lt;80</div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  <p className="text-xs md:text-sm">
-                    Standard basati su atleti ibridi d'elite • Vichinghi Hybrid Training
+                {/* Footer */}
+                <footer className="mt-12 pt-6 border-t border-stone-800/50 text-center">
+                  <p className="font-barlow text-stone-600 text-xs tracking-wider">
+                    nicholasrubini.it • Vichinghi Hybrid Training
                   </p>
-                </div>
+                </footer>
               </div>
+
+              {/* STICKY CTA MOBILE - NEW */}
+              {results && results.recommendedProgram && (
+                <div className={`sticky-cta ${showStickyCta ? 'visible' : ''}`}>
+                  <a
+                    href="https://www.nicholasrubini.it/prodotto/scheda-hybrid-athlete/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-forge w-full flex items-center justify-center gap-2 text-stone-900 font-cinzel font-bold py-4 rounded text-sm"
+                  >
+                    {results.recommendedProgram.ctaText}
+                    <ArrowIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              )}
             </div>
           );
         };
