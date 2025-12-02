@@ -509,7 +509,6 @@
           };
 
           const calculateProjectedScore = (currentScore) => {
-            // Conservative 12-15% improvement estimate
             const improvementRate = currentScore < 80 ? 0.15 : currentScore < 100 ? 0.12 : 0.08;
             return Math.min(Math.round(currentScore * (1 + improvementRate)), 120);
           };
@@ -839,7 +838,7 @@
                       </div>
                     </section>
 
-                    {/* GAP ANALYSIS - NEW */}
+                    {/* GAP ANALYSIS */}
                     <section className="carved-card rounded-lg p-6 md:p-8 delay-2 animate-in">
                       <h3 className="font-cinzel text-lg md:text-xl font-semibold text-stone-100 mb-6 flex items-center gap-2">
                         <span className="text-amber-500">ᛗ</span> Analisi del Gap
@@ -891,7 +890,7 @@
                       </div>
                     </section>
 
-                    {/* PROJECTION - NEW */}
+                    {/* PROJECTION */}
                     <section className="carved-card rounded-lg p-6 md:p-8 delay-2 animate-in projection-glow border border-amber-900/30">
                       <div className="flex items-start gap-4">
                         <div className="p-3 bg-amber-900/30 rounded-lg">
@@ -979,7 +978,7 @@
 
                         {/* CTA PERSONALIZZATO */}
                         <div className="text-center">
-                          <a
+                          
                             href="https://www.nicholasrubini.it/prodotto/scheda-hybrid-athlete/"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -1088,10 +1087,10 @@
                 </footer>
               </div>
 
-              {/* STICKY CTA MOBILE - NEW */}
+              {/* STICKY CTA MOBILE */}
               {results && results.recommendedProgram && (
                 <div className={`sticky-cta ${showStickyCta ? 'visible' : ''}`}>
-                  <a
+                  
                     href="https://www.nicholasrubini.it/prodotto/scheda-hybrid-athlete/"
                     target="_blank"
                     rel="noopener noreferrer"
