@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Athlete - Valutazione Performance</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Brand Colors - Norse Palette (Jarngrip style) */
+            --bg-deep: #050508;
+            --bg-card: #0c0c10;
+            --bg-elevated: #121216;
+            --bg-input: #18181e;
+            
+            --gold: #c9a227;
+            --gold-light: #d4b84a;
+            --gold-muted: #a68a1f;
+            --gold-glow: rgba(201, 162, 39, 0.15);
+            
+            --ice: #7FB3D5;
+            --ice-light: #A9CCE3;
+            
+            --text: #f0ede6;
+            --text-muted: #8a8a8a;
+            --text-subtle: #5a5a5a;
+            
+            /* Legacy mappings */
+            --gold-primary: #c9a227;
+            --gold-dark: #8B7015;
+            --ice-blue: #7FB3D5;
+            --charcoal: #050508;
+            --charcoal-light: #0c0c10;
+            --charcoal-lighter: #121216;
+            --bone: #f0ede6;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text);
+        }
+        
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .norse-pattern { position: relative; }
+        
+        .norse-pattern::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(30deg, var(--gold-primary) 1px, transparent 1px),
+                linear-gradient(-30deg, var(--gold-primary) 1px, transparent 1px),
+                linear-gradient(150deg, var(--gold-primary) 1px, transparent 1px),
+                linear-gradient(-150deg, var(--gold-primary) 1px, transparent 1px);
+            background-size: 60px 104px;
+            background-position: 0 0, 30px 0, 30px -52px, 0 52px;
+        }
+        
+        .runic-border { position: relative; }
+        
+        .runic-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, var(--gold-primary) 20%, 
+                var(--gold-light) 50%, var(--gold-primary) 80%, 
+                transparent 100%
+            );
+        }
+        
+        .gold-glow { text-shadow: 0 0 20px rgba(201, 162, 39, 0.3); }
+        
+        .carved-card {
+            background: linear-gradient(145deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.03),
+                0 10px 40px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(201, 162, 39, 0.08);
+        }
+        
+        .norse-input {
+            background: var(--bg-input);
+            border: 1px solid rgba(201, 162, 39, 0.15);
+            transition: all 0.3s ease;
+            color: var(--text);
+        }
+        
+        .norse-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+            outline: none;
+        }
+        
+        .btn-forge {
+            background: linear-gradient(180deg, #D4AF37 0%, #C9A227 30%, #8B7015 100%);
+            box-shadow: 
+                0 4px 15px rgba(201, 162, 39, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -2px 0 rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-forge:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 25px rgba(201, 162, 39, 0.5),
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -2px 0 rgba(0,0,0,0.2);
+        }
+        
+        .btn-forge:active { transform: translateY(0); }
+        
+        .score-ring { position: relative; }
+        
+        .score-ring::before {
+            content: '';
+            position: absolute;
+            top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border: 2px solid var(--gold-primary);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        .score-ring::after {
+            content: '';
+            position: absolute;
+            top: -16px; left: -16px; right: -16px; bottom: -16px;
+            border: 1px solid var(--gold-primary);
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+        
+        .badge-elite { 
+            background: linear-gradient(135deg, #9B59B6 0%, #6C3483 100%);
+            box-shadow: 0 2px 10px rgba(155, 89, 182, 0.4);
+        }
+        .badge-ottimo { 
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            box-shadow: 0 2px 10px rgba(201, 162, 39, 0.4);
+        }
+        .badge-buono { 
+            background: linear-gradient(135deg, var(--ice-blue) 0%, #5499C7 100%);
+            box-shadow: 0 2px 10px rgba(127, 179, 213, 0.4);
+        }
+        .badge-discreto { 
+            background: linear-gradient(135deg, #A67C52 0%, #8B6914 100%);
+            box-shadow: 0 2px 10px rgba(166, 124, 82, 0.4);
+        }
+        .badge-migliorare { 
+            background: linear-gradient(135deg, #7D6B5D 0%, #5D4E42 100%);
+            box-shadow: 0 2px 10px rgba(125, 107, 93, 0.3);
+        }
+        
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-in { animation: fadeSlideUp 0.6s ease-out forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
+        
+        .progress-forge {
+            background: rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        
+        .progress-forge-fill {
+            background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold-primary) 50%, var(--gold-light) 100%);
+            box-shadow: 0 0 10px rgba(201, 162, 39, 0.5);
+        }
+        
+        .norse-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold-primary);
+            opacity: 0.5;
+        }
+        
+        .norse-divider::before,
+        .norse-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+        
+        .gap-bar-container {
+            position: relative;
+        }
+        
+        .gap-bar {
+            position: relative;
+            height: 12px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .gap-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease-out;
+            max-width: 100%;
+        }
+        
+        .gap-bar-container .gap-bar-standard {
+            position: absolute;
+            top: -4px;
+            bottom: -4px;
+            width: 3px;
+            background: var(--gold-primary);
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(201, 162, 39, 0.6);
+            z-index: 10;
+        }
+        
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(5,5,8,0.98) 30%, var(--bg-deep) 100%);
+            padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-out;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .sticky-cta.visible {
+            transform: translateY(0);
+        }
+        
+        .projection-glow {
+            box-shadow: 
+                0 0 30px rgba(201, 162, 39, 0.15),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        
+        /* Exit Intent Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .popup-content {
+            background: linear-gradient(145deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        
+        .popup-overlay.visible .popup-content {
+            transform: scale(1);
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .popup-close:hover {
+            color: #999;
+        }
+        
+        /* Calculation Steps Animation */
+        .calc-step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        
+        .calc-step.active {
+            opacity: 1;
+        }
+        
+        .calc-step.done {
+            opacity: 1;
+        }
+        
+        .calc-step-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .calc-step.done .calc-step-icon {
+            background: var(--gold);
+            color: var(--bg-deep);
+        }
+        
+        .calc-step.active .calc-step-icon {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(201, 162, 39, 0); }
+        }
+        
+        /* Social Proof */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-muted); }
+        
+        @media (min-width: 768px) {
+            .sticky-cta { display: none; }
+            .main-content { padding-bottom: 0; }
+        }
+        
+        @media (max-width: 767px) {
+            .main-content.has-results { padding-bottom: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+        
+        const AxeIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M14 4L4 14" /><path d="M14 4L20 10" />
+            <path d="M14 4C14 4 18 3 20 5C22 7 21 11 21 11" />
+            <path d="M4 14L10 20" />
+          </svg>
+        );
+        
+        const ShieldIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M12 2L3 7V12C3 17 7.5 21.5 12 22C16.5 21.5 21 17 21 12V7L12 2Z" />
+            <path d="M12 6V18" /><path d="M7 9H17" />
+          </svg>
+        );
+        
+        const HelmIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 3V12L18 18" /><path d="M12 12L6 18" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        );
+        
+        const ArrowIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M5 12H19" /><path d="M12 5L19 12L12 19" />
+          </svg>
+        );
+        
+        const DownloadIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M21 15V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        );
+        
+        const TrendUpIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+            <polyline points="17 6 23 6 23 12" />
+          </svg>
+        );
+        
+        const CheckIcon = ({ className }) => (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        );
+
+        const HybridAthleteAssessment = () => {
+          const [weight, setWeight] = useState('');
+          const [squat, setSquat] = useState('');
+          const [run5k, setRun5k] = useState('');
+          const [results, setResults] = useState(null);
+          const [isCalculating, setIsCalculating] = useState(false);
+          const [calcStep, setCalcStep] = useState(0);
+          const [showStickyCta, setShowStickyCta] = useState(false);
+          const [showExitPopup, setShowExitPopup] = useState(false);
+          const [exitPopupShown, setExitPopupShown] = useState(false);
+          const [ctaClicked, setCtaClicked] = useState(false);
+          const canvasRef = useRef(null);
+          const resultsRef = useRef(null);
+
+          // Exit Intent Detection
+          useEffect(() => {
+            const handleMouseLeave = (e) => {
+              if (e.clientY <= 0 && !exitPopupShown && !isCalculating) {
+                setShowExitPopup(true);
+                setExitPopupShown(true);
+              }
+            };
+
+            document.addEventListener('mouseleave', handleMouseLeave);
+            return () => document.removeEventListener('mouseleave', handleMouseLeave);
+          }, [exitPopupShown, isCalculating]);
+
+          useEffect(() => {
+            if (results) {
+              const timer = setTimeout(() => setShowStickyCta(true), 1500);
+              return () => clearTimeout(timer);
+            } else {
+              setShowStickyCta(false);
+            }
+          }, [results]);
+
+          const standards = {
+            '65-70': { 
+              name: '65-70kg',
+              squat: { scarso: 1.9, intermedio: 2.0, avanzato: 2.3, elite: 2.45 },
+              run5k: { scarso: 1500, intermedio: 1335, avanzato: 1290, elite: 1155 } // 25:00, 22:15, 21:30, 19:15
+            },
+            '70-75': { 
+              name: '70-75kg',
+              squat: { scarso: 1.8, intermedio: 1.9, avanzato: 2.2, elite: 2.35 },
+              run5k: { scarso: 1530, intermedio: 1380, avanzato: 1305, elite: 1200 } // 25:30, 23:00, 21:45, 20:00
+            },
+            '75-80': { 
+              name: '75-80kg',
+              squat: { scarso: 1.7, intermedio: 1.8, avanzato: 2.1, elite: 2.25 },
+              run5k: { scarso: 1560, intermedio: 1425, avanzato: 1335, elite: 1245 } // 26:00, 23:45, 22:15, 20:45
+            },
+            '80-85': { 
+              name: '80-85kg',
+              squat: { scarso: 1.6, intermedio: 1.7, avanzato: 2.0, elite: 2.15 },
+              run5k: { scarso: 1605, intermedio: 1470, avanzato: 1380, elite: 1290 } // 26:45, 24:30, 23:00, 21:30
+            },
+            '85-90': { 
+              name: '85-90kg',
+              squat: { scarso: 1.5, intermedio: 1.6, avanzato: 1.9, elite: 2.1 },
+              run5k: { scarso: 1650, intermedio: 1515, avanzato: 1410, elite: 1335 } // 27:30, 25:15, 23:30, 22:15
+            },
+            '90-95': { 
+              name: '90-95kg',
+              squat: { scarso: 1.4, intermedio: 1.5, avanzato: 1.8, elite: 2.0 },
+              run5k: { scarso: 1710, intermedio: 1560, avanzato: 1440, elite: 1380 } // 28:30, 26:00, 24:00, 23:00
+            }
+          };
+
+          const getWeightCategory = (w) => {
+            if (w >= 65 && w < 70) return '65-70';
+            if (w >= 70 && w < 75) return '70-75';
+            if (w >= 75 && w < 80) return '75-80';
+            if (w >= 80 && w < 85) return '80-85';
+            if (w >= 85 && w < 90) return '85-90';
+            if (w >= 90 && w <= 100) return '90-95';
+            return null;
+          };
+
+          const getLevel = (value, thresholds, lowerIsBetter = false) => {
+            // Tolleranze per promuovere al livello superiore se molto vicino
+            // Forza: 5% (più generoso per chi è vicino)
+            // Corsa: 2% (più conservativo, pochi secondi contano)
+            const TOLERANCE_STRENGTH = 0.05;
+            const TOLERANCE_RUNNING = 0.02;
+            
+            if (lowerIsBetter) {
+              // Per tempi: più basso è meglio
+              const eliteWithTolerance = thresholds.elite * (1 + TOLERANCE_RUNNING);
+              const avanzatoWithTolerance = thresholds.avanzato * (1 + TOLERANCE_RUNNING);
+              const intermedioWithTolerance = thresholds.intermedio * (1 + TOLERANCE_RUNNING);
+              const scarsoWithTolerance = thresholds.scarso * (1 + TOLERANCE_RUNNING);
+              
+              if (value <= eliteWithTolerance) return 'elite';
+              if (value <= avanzatoWithTolerance) return 'avanzato';
+              if (value <= intermedioWithTolerance) return 'intermedio';
+              if (value <= scarsoWithTolerance) return 'scarso';
+              return 'sotto-scarso';
+            } else {
+              // Per forza: più alto è meglio
+              const eliteWithTolerance = thresholds.elite * (1 - TOLERANCE_STRENGTH);
+              const avanzatoWithTolerance = thresholds.avanzato * (1 - TOLERANCE_STRENGTH);
+              const intermedioWithTolerance = thresholds.intermedio * (1 - TOLERANCE_STRENGTH);
+              const scarsoWithTolerance = thresholds.scarso * (1 - TOLERANCE_STRENGTH);
+              
+              if (value >= eliteWithTolerance) return 'elite';
+              if (value >= avanzatoWithTolerance) return 'avanzato';
+              if (value >= intermedioWithTolerance) return 'intermedio';
+              if (value >= scarsoWithTolerance) return 'scarso';
+              return 'sotto-scarso';
+            }
+          };
+
+          const getLevelDisplay = (level) => {
+            const displays = {
+              'elite': { label: 'Elite', symbol: 'ᛟ', color: 'text-purple-400', badgeClass: 'badge-elite' },
+              'avanzato': { label: 'Avanzato', symbol: 'ᛏ', color: 'text-amber-400', badgeClass: 'badge-ottimo' },
+              'intermedio': { label: 'Intermedio', symbol: 'ᚱ', color: 'text-sky-400', badgeClass: 'badge-buono' },
+              'scarso': { label: 'Scarso', symbol: 'ᚹ', color: 'text-amber-600', badgeClass: 'badge-discreto' },
+              'sotto-scarso': { label: 'Da forgiare', symbol: 'ᚠ', color: 'text-stone-400', badgeClass: 'badge-migliorare' }
+            };
+            return displays[level] || displays['sotto-scarso'];
+          };
+
+          const timeToSeconds = (timeStr) => {
+            const parts = timeStr.split(':');
+            if (parts.length === 2) return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+            return parseInt(timeStr);
+          };
+
+          const secondsToTime = (seconds) => {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.round(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+          };
+
+          const calculateScore = (value, standard, lowerIsBetter = false) => {
+            if (lowerIsBetter) return Math.round((standard / value) * 100);
+            return Math.round((value / standard) * 100);
+          };
+
+          const getPerformanceLevel = (score) => {
+            if (score >= 110) return { level: 'Elite', badgeClass: 'badge-elite', symbol: 'ᛟ', color: 'text-purple-400' };
+            if (score >= 100) return { level: 'Ottimo', badgeClass: 'badge-ottimo', symbol: 'ᛏ', color: 'text-amber-400' };
+            if (score >= 90) return { level: 'Buono', badgeClass: 'badge-buono', symbol: 'ᚱ', color: 'text-sky-400' };
+            if (score >= 80) return { level: 'Discreto', badgeClass: 'badge-discreto', symbol: 'ᚹ', color: 'text-amber-600' };
+            return { level: 'Da forgiare', badgeClass: 'badge-migliorare', symbol: 'ᚠ', color: 'text-stone-400' };
+          };
+
+          const getOverallPerformance = (avgScore) => {
+            if (avgScore >= 110) return { text: 'ELITE WARRIOR', color: 'text-purple-400', symbol: 'ᛟ', desc: 'Superi tutti gli standard. Sei forgiato nel ferro.' };
+            if (avgScore >= 100) return { text: 'FORGIATO', color: 'text-amber-400', symbol: 'ᛏ', desc: 'Raggiungi gli standard dei guerrieri.' };
+            if (avgScore >= 90) return { text: 'GUERRIERO', color: 'text-sky-400', symbol: 'ᚱ', desc: 'Vicino alla perfezione. Continua a forgiare.' };
+            if (avgScore >= 80) return { text: 'APPRENDISTA', color: 'text-amber-600', symbol: 'ᚹ', desc: 'Buona base. Il cammino è ancora lungo.' };
+            return { text: 'INIZIATO', color: 'text-stone-400', symbol: 'ᚠ', desc: 'Il viaggio inizia qui. Forgia il tuo destino.' };
+          };
+
+          const getRecommendedProgram = (tests, weightCategory, bodyweight) => {
+            const squatTest = tests.find((t) => t.name === 'Squat' && t.completed);
+            const run5kTest = tests.find((t) => t.name === '5k Run' && t.completed);
+
+            if (!squatTest || !run5kTest) return null;
+
+            const std = standards[weightCategory];
+            const squatRatio = squatTest.value / bodyweight;
+
+            const strengthLevel = getLevel(squatRatio, std.squat, false);
+            const runningLevel = getLevel(run5kTest.valueSeconds, std.run5k, true);
+
+            // Forza ALTA = avanzato o elite
+            const isStrengthHigh = strengthLevel === 'avanzato' || strengthLevel === 'elite';
+            // Forza MEDIA = intermedio
+            const isStrengthMid = strengthLevel === 'intermedio';
+            // Forza BASSA = scarso o sotto-scarso
+            const isStrengthLow = strengthLevel === 'scarso' || strengthLevel === 'sotto-scarso';
+            // Forza MOLTO BASSA = solo sotto-scarso
+            const isStrengthVeryLow = strengthLevel === 'sotto-scarso';
+
+            // Corsa ALTA = avanzato o elite
+            const isRunningHigh = runningLevel === 'avanzato' || runningLevel === 'elite';
+            // Corsa MEDIA = intermedio
+            const isRunningMid = runningLevel === 'intermedio';
+            // Corsa BASSA = scarso o sotto-scarso
+            const isRunningLow = runningLevel === 'scarso' || runningLevel === 'sotto-scarso';
+
+            // CASO SPECIALE: Forza sotto-scarso + Corsa avanzata/elite = Runner che deve costruire forza
+            // Questo è un caso particolare senza programma specifico
+            if (isStrengthVeryLow && isRunningHigh) {
+              return {
+                name: 'CASO PARTICOLARE',
+                title: 'Il Runner che Solleva',
+                symbol: 'ᛖ',
+                gradient: 'from-emerald-950 via-stone-900 to-neutral-950',
+                profile: 'Runner avanzato + Forza da costruire',
+                description: 'Hai un\'eccellente base aerobica ma la forza è molto sotto la media. Questo è un profilo particolare che richiede un approccio personalizzato per costruire forza senza compromettere le tue capacità di corsa.',
+                focus: [
+                  'Costruzione graduale della forza dai fondamentali',
+                  'Protezione delle capacità aerobiche acquisite',
+                  'Approccio personalizzato per il tuo caso specifico',
+                  'Prevenzione infortuni con focus su forza funzionale'
+                ],
+                frequency: 'Da definire insieme',
+                duration: 'Personalizzata',
+                ctaText: 'CONTATTAMI PER UN PROGRAMMA PERSONALIZZATO',
+                ctaSubtext: 'Il tuo caso richiede un approccio su misura',
+                ctaLink: 'https://www.nicholasrubini.it/contatta/',
+                isSpecialCase: true,
+                strengthLevel,
+                runningLevel
+              };
+            }
+
+            // C) Novizio Totale: Forza BASSA (scarso o sotto-scarso) - indipendentemente dalla corsa
+            if (isStrengthLow) {
+              return {
+                name: 'PROGRAMMA C',
+                title: 'Il Novizio Totale',
+                symbol: 'ᛉ',
+                gradient: 'from-stone-900 via-neutral-900 to-stone-950',
+                profile: 'Livelli di forza da costruire',
+                description: 'Stai iniziando il tuo viaggio hybrid! Focus su tecnica, consistenza e costruzione di fondamenta solide su entrambi i fronti.',
+                focus: [
+                  'Mettere solide basi di forza',
+                  'Migliorare composizione corporea',
+                  'Stabilire una base aerobica',
+                  'Risultato: Fondamenta solide, miglioramenti in forza e corsa'
+                ],
+                frequency: '3 Strength + 3 Running + 1 cardio opzionale',
+                duration: '12 settimane',
+                ctaText: 'PROGRAMMA C: IL NOVIZIO TOTALE',
+                ctaSubtext: 'Costruisci le tue fondamenta',
+                strengthLevel,
+                runningLevel
+              };
+            }
+
+            // D) Hybrid Avanzato: Forza ALTA + Corsa ALTA
+            if (isStrengthHigh && isRunningHigh) {
+              return {
+                name: 'PROGRAMMA D',
+                title: "L'Hybrid Avanzato",
+                symbol: 'ᛟ',
+                gradient: 'from-purple-950 via-stone-900 to-neutral-950',
+                profile: 'Alti livelli di forza + Runner avanzato',
+                description: 'Sei forte sia in sala pesi che nella corsa. Hai bisogno di periodizzazione avanzata per continuare a progredire in entrambi i domini senza interferenza.',
+                focus: [
+                  'Performance elevata in entrambi i domini',
+                  'Gestione fine dell\'interferenza',
+                  'Periodizzazione sofisticata con picchi programmati',
+                  'PB su 5K/10K mantenendo i PR nei big lifts'
+                ],
+                frequency: '3 Strength + 3 Running + 1 cardio opzionale',
+                duration: '12 settimane',
+                ctaText: "PROGRAMMA D: L'HYBRID AVANZATO",
+                ctaSubtext: 'Periodizzazione avanzata per atleti completi',
+                strengthLevel,
+                runningLevel
+              };
+            }
+
+            // A) Lifter che Corre: Forza >= INTERMEDIO + Corsa BASSA (scarso o sotto-scarso)
+            if ((isStrengthHigh || isStrengthMid) && isRunningLow) {
+              return {
+                name: 'PROGRAMMA A',
+                title: 'Il Lifter che Corre',
+                symbol: 'ᚦ',
+                gradient: 'from-amber-950 via-stone-900 to-stone-950',
+                profile: 'Buoni livelli di forza + Runner da sviluppare',
+                description: 'Hai una buona base di forza! Ora è il momento di costruire una base aerobica solida senza perdere i tuoi guadagni.',
+                focus: [
+                  'Mantenere o aumentare PR e massa muscolare',
+                  'Migliorare la corsa in modo intelligente',
+                  'Minimizzare interferenza tra pesi e corsa',
+                  'Risultato: Forza stabile o in aumento, 5-10K in miglioramento'
+                ],
+                frequency: '3 Strength + 3 Running + 1 cardio opzionale',
+                duration: '12 settimane',
+                ctaText: 'PROGRAMMA A: IL LIFTER CHE CORRE',
+                ctaSubtext: 'Mantieni la forza, costruisci la corsa',
+                strengthLevel,
+                runningLevel
+              };
+            }
+
+            // B) Equilibrato: tutti gli altri casi (Forza >= Intermedio + Corsa >= Intermedio ma non entrambi Avanzati)
+            // Variante speciale: Forza Alta + Corsa Intermedia
+            const isStrengthHighRunningMid = isStrengthHigh && isRunningMid;
+            
+            return {
+              name: 'PROGRAMMA B',
+              title: "L'Equilibrato",
+              symbol: 'ᚼ',
+              gradient: 'from-sky-950 via-stone-900 to-neutral-950',
+              profile: isStrengthHighRunningMid 
+                ? 'Forza eccellente + Runner in crescita'
+                : 'Buona base su entrambi i fronti',
+              description: isStrengthHighRunningMid
+                ? 'Ottimo livello di forza! La tua base aerobica è già solida ma ha margine di crescita. L\'Equilibrato ti permette di mantenere i tuoi eccellenti livelli di forza mentre porti la corsa al livello successivo.'
+                : 'Hai una buona base! Continua a svilupparti in modo bilanciato su entrambi i fronti con crescita costante.',
+              focus: isStrengthHighRunningMid
+                ? [
+                    'Mantenimento della forza ai massimi livelli',
+                    'Progressione mirata sulla corsa',
+                    'Volume running incrementale senza compromettere i PR',
+                    'Risultato: Forza stabile, corsa verso livello Avanzato'
+                  ]
+                : [
+                    'Crescita bilanciata di forza e base aerobica',
+                    'Sviluppo continuo senza sacrifici',
+                    'Volume progressivo su entrambe le discipline',
+                    'Risultato: Forza in aumento e corsa in miglioramento costante'
+                  ],
+              frequency: '3 Strength + 3 Running + 1 cardio opzionale',
+              duration: '12 settimane',
+              ctaText: "PROGRAMMA B: L'EQUILIBRATO",
+              ctaSubtext: isStrengthHighRunningMid 
+                ? 'Mantieni la forza, porta la corsa al top'
+                : 'Crescita bilanciata su tutti i fronti',
+              strengthLevel,
+              runningLevel
+            };
+          };
+
+          const calculateProjectedScore = (currentScore) => {
+            const improvementRate = currentScore < 80 ? 0.15 : currentScore < 100 ? 0.12 : 0.08;
+            return Math.min(Math.round(currentScore * (1 + improvementRate)), 120);
+          };
+
+          // Generate dynamic analysis text
+          const generateAnalysisText = (tests, w) => {
+            const squatTest = tests.find(t => t.name === 'Squat');
+            const runTest = tests.find(t => t.name === '5k Run');
+            
+            const squatRatio = squatTest.ratio;
+            const squatScore = squatTest.score;
+            const runScore = runTest.score;
+            
+            let strengthAnalysis = '';
+            let enduranceAnalysis = '';
+            
+            // Strength analysis
+            if (squatScore >= 100) {
+              strengthAnalysis = `Con ${squatTest.value}kg di squat a ${w}kg di peso corporeo, il tuo rapporto di ${squatRatio}x ti colloca tra gli atleti avanzati per la forza.`;
+            } else if (squatScore >= 90) {
+              strengthAnalysis = `Con ${squatTest.value}kg di squat a ${w}kg di peso corporeo (${squatRatio}x), sei vicino allo standard. Ti mancano solo ${100 - squatScore} punti.`;
+            } else {
+              strengthAnalysis = `Con ${squatTest.value}kg di squat a ${w}kg (${squatRatio}x), hai margine di miglioramento nella forza. Lo standard è ${squatTest.standardRatio}x.`;
+            }
+            
+            // Endurance analysis
+            if (runScore >= 100) {
+              enduranceAnalysis = `Il tuo tempo sui 5k (${runTest.displayValue}) supera lo standard — eccellente capacità aerobica.`;
+            } else if (runScore >= 90) {
+              enduranceAnalysis = `Il tuo ${runTest.displayValue} sui 5k è solido, a ${100 - runScore} punti dallo standard di ${runTest.displayStandard}.`;
+            } else {
+              enduranceAnalysis = `La resistenza è il tuo punto debole: ${runTest.displayValue} sui 5k è ${100 - runScore} punti sotto lo standard (${runTest.displayStandard}).`;
+            }
+            
+            return { strengthAnalysis, enduranceAnalysis };
+          };
+
+          const generateInstagramStory = async () => {
+            if (!results) return;
+            const canvas = canvasRef.current;
+            if (!canvas) return;
+
+            try {
+              const ctx = canvas.getContext('2d');
+              const width = 1080;
+              const height = 1920;
+              canvas.width = width;
+              canvas.height = height;
+
+              const gradient = ctx.createLinearGradient(0, 0, 0, height);
+              gradient.addColorStop(0, '#1A1A1A');
+              gradient.addColorStop(0.5, '#252525');
+              gradient.addColorStop(1, '#1A1A1A');
+              ctx.fillStyle = gradient;
+              ctx.fillRect(0, 0, width, height);
+
+              ctx.strokeStyle = 'rgba(201, 162, 39, 0.3)';
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(100, 280);
+              ctx.lineTo(width - 100, 280);
+              ctx.stroke();
+
+              ctx.fillStyle = '#C9A227';
+              ctx.font = '700 72px Cinzel, serif';
+              ctx.textAlign = 'center';
+              ctx.fillText('HYBRID ATHLETE', width / 2, 200);
+
+              const status = getOverallPerformance(results.avgScore);
+              ctx.font = '220px serif';
+              ctx.fillStyle = '#C9A227';
+              ctx.fillText(status.symbol, width / 2, 520);
+
+              ctx.font = '600 52px Cinzel, serif';
+              ctx.fillStyle = '#F5F2E9';
+              ctx.fillText(status.text, width / 2, 620);
+
+              ctx.font = '700 180px Inter, sans-serif';
+              ctx.fillStyle = '#C9A227';
+              ctx.fillText(results.avgScore.toString(), width / 2, 850);
+
+              ctx.font = '400 32px Inter, sans-serif';
+              ctx.fillStyle = '#888';
+              ctx.fillText('PUNTEGGIO TOTALE', width / 2, 910);
+
+              ctx.font = '400 36px Inter, sans-serif';
+              ctx.fillStyle = '#7FB3D5';
+              ctx.fillText(`Categoria: ${results.category}`, width / 2, 990);
+
+              ctx.strokeStyle = 'rgba(201, 162, 39, 0.2)';
+              ctx.beginPath();
+              ctx.moveTo(150, 1060);
+              ctx.lineTo(width - 150, 1060);
+              ctx.stroke();
+
+              let yPos = 1160;
+              
+              results.tests.forEach((test) => {
+                const perf = getPerformanceLevel(test.score);
+                
+                ctx.fillStyle = 'rgba(201, 162, 39, 0.08)';
+                ctx.fillRect(120, yPos - 70, width - 240, 200);
+                
+                ctx.font = '80px serif';
+                ctx.fillStyle = '#C9A227';
+                ctx.textAlign = 'left';
+                ctx.fillText(test.symbol, 160, yPos + 20);
+                
+                ctx.font = '600 44px Cinzel, serif';
+                ctx.fillStyle = '#F5F2E9';
+                ctx.fillText(test.name.toUpperCase(), 280, yPos - 10);
+                
+                ctx.font = '500 36px Inter, sans-serif';
+                ctx.fillStyle = '#AAA';
+                const valueText = test.displayValue ? test.displayValue : `${test.value} ${test.unit}`;
+                ctx.fillText(valueText, 280, yPos + 40);
+                
+                if (test.ratio) {
+                  ctx.font = '400 30px Inter, sans-serif';
+                  ctx.fillStyle = '#777';
+                  ctx.fillText(`${test.ratio}x BW`, 280, yPos + 85);
+                }
+                
+                ctx.textAlign = 'right';
+                ctx.font = '700 72px Inter, sans-serif';
+                ctx.fillStyle = '#C9A227';
+                ctx.fillText(test.score.toString(), width - 160, yPos + 10);
+                
+                ctx.font = '600 28px Inter, sans-serif';
+                ctx.fillStyle = '#888';
+                ctx.fillText(`${perf.symbol} ${perf.level.toUpperCase()}`, width - 160, yPos + 55);
+                
+                ctx.textAlign = 'center';
+                yPos += 240;
+              });
+
+              ctx.strokeStyle = 'rgba(201, 162, 39, 0.2)';
+              ctx.beginPath();
+              ctx.moveTo(150, yPos - 20);
+              ctx.lineTo(width - 150, yPos - 20);
+              ctx.stroke();
+
+              ctx.fillStyle = '#666';
+              ctx.font = '400 32px Inter, sans-serif';
+              ctx.textAlign = 'center';
+              ctx.fillText('nicholasrubini.it', width / 2, height - 120);
+
+              canvas.toBlob((blob) => {
+                if (!blob) return;
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'hybrid-athlete-results.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              }, 'image/png');
+            } catch (error) {
+              console.error('Error:', error);
+            }
+          };
+
+          const calculationSteps = [
+            'Analizzando forza relativa...',
+            'Calcolando capacità aerobica...',
+            'Confrontando con database atleti...',
+            'Generando programma personalizzato...'
+          ];
+
+          const calculateResults = () => {
+            const w = parseFloat(weight);
+
+            if (!weight || !squat || !run5k) {
+              alert('Completa tutti i campi obbligatori.');
+              return;
+            }
+
+            const category = getWeightCategory(w);
+            if (!category) {
+              alert('Peso deve essere tra 65-100kg');
+              return;
+            }
+
+            // Reset stati per nuovo calcolo
+            setShowStickyCta(false);
+            setCtaClicked(false);
+            setResults(null);
+            
+            setIsCalculating(true);
+            setCalcStep(0);
+            
+            // Animated calculation steps
+            const stepDuration = 800;
+            
+            calculationSteps.forEach((_, index) => {
+              setTimeout(() => {
+                setCalcStep(index + 1);
+              }, stepDuration * (index + 1));
+            });
+            
+            setTimeout(() => {
+              const std = standards[category];
+              const tests = [];
+
+              // SQUAT - usa "intermedio" come reference standard per il punteggio
+              const squatValue = parseFloat(squat);
+              const squatRatio = squatValue / w;
+              const squatStandard = w * std.squat.intermedio;
+              const squatLevel = getLevel(squatRatio, std.squat, false);
+              const squatLevelDisplay = getLevelDisplay(squatLevel);
+              
+              tests.push({
+                name: 'Squat',
+                value: squatValue,
+                standard: squatStandard,
+                displayStandard: squatStandard.toFixed(1),
+                ratio: squatRatio.toFixed(2),
+                standardRatio: std.squat.intermedio,
+                unit: 'kg',
+                score: calculateScore(squatValue, squatStandard, false),
+                higher: true,
+                symbol: 'ᚦ',
+                completed: true,
+                level: squatLevel,
+                levelDisplay: squatLevelDisplay
+              });
+
+              // 5K RUN - usa "intermedio" come reference standard per il punteggio
+              const run5kSec = timeToSeconds(run5k);
+              const run5kLevel = getLevel(run5kSec, std.run5k, true);
+              const run5kLevelDisplay = getLevelDisplay(run5kLevel);
+              
+              tests.push({
+                name: '5k Run',
+                value: run5kSec,
+                valueSeconds: run5kSec,
+                standard: std.run5k.intermedio,
+                displayValue: run5k,
+                displayStandard: secondsToTime(std.run5k.intermedio),
+                unit: '',
+                score: calculateScore(run5kSec, std.run5k.intermedio, true),
+                higher: false,
+                symbol: 'ᚱ',
+                completed: true,
+                level: run5kLevel,
+                levelDisplay: run5kLevelDisplay
+              });
+
+              const avgScore = Math.round(tests.reduce((sum, t) => sum + t.score, 0) / tests.length);
+              const analysis = generateAnalysisText(tests, w);
+
+              setResults({
+                category: std.name,
+                tests,
+                avgScore,
+                completedTests: 2,
+                totalPossibleTests: 2,
+                recommendedProgram: getRecommendedProgram(tests, category, w),
+                projectedScore: calculateProjectedScore(avgScore),
+                analysis
+              });
+              
+              setIsCalculating(false);
+              setCalcStep(0);
+              
+              setTimeout(() => {
+                resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 100);
+            }, stepDuration * calculationSteps.length + 400);
+          };
+
+          const getGapBarColor = (score) => {
+            if (score >= 100) return 'bg-gradient-to-r from-amber-600 to-amber-400';
+            if (score >= 90) return 'bg-gradient-to-r from-sky-700 to-sky-500';
+            if (score >= 80) return 'bg-gradient-to-r from-amber-800 to-amber-600';
+            return 'bg-gradient-to-r from-stone-700 to-stone-500';
+          };
+
+          const handleCtaClick = () => {
+            setCtaClicked(true);
+          };
+
+          const closeExitPopup = () => {
+            setShowExitPopup(false);
+          };
+
+          // Exit Popup Content
+          const ExitPopup = () => {
+            if (!results) {
+              // Variante A: non ha ancora calcolato
+              return (
+                <div className={`popup-overlay ${showExitPopup ? 'visible' : ''}`} onClick={closeExitPopup}>
+                  <div className="popup-content relative" onClick={e => e.stopPropagation()}>
+                    <button className="popup-close" onClick={closeExitPopup}>×</button>
+                    <span className="text-5xl mb-4 block">⚔️</span>
+                    <h3 className="font-cinzel text-xl md:text-2xl font-bold text-stone-100 mb-3">
+                      Aspetta!
+                    </h3>
+                    <p className="font-inter text-stone-400 mb-6">
+                      Non hai ancora scoperto il tuo profilo Hybrid Athlete.<br/>
+                      <span className="text-amber-400">Il test richiede solo 10 secondi.</span>
+                    </p>
+                    <button
+                      onClick={closeExitPopup}
+                      className="btn-forge w-full text-stone-900 font-cinzel font-bold py-3 rounded"
+                    >
+                      COMPLETA IL TEST
+                    </button>
+                  </div>
+                </div>
+              );
+            } else if (!ctaClicked) {
+              // Variante B: ha calcolato ma non ha cliccato CTA
+              const isSpecial = results.recommendedProgram?.isSpecialCase;
+              const ctaLink = results.recommendedProgram?.ctaLink || "https://www.nicholasrubini.it/prodotto/scheda-hybrid-athlete/";
+              
+              return (
+                <div className={`popup-overlay ${showExitPopup ? 'visible' : ''}`} onClick={closeExitPopup}>
+                  <div className="popup-content relative" onClick={e => e.stopPropagation()}>
+                    <button className="popup-close" onClick={closeExitPopup}>×</button>
+                    <span className="text-5xl mb-4 block">{results.recommendedProgram?.symbol}</span>
+                    <h3 className="font-cinzel text-lg md:text-xl font-bold text-stone-100 mb-3">
+                      {isSpecial ? 'Il tuo caso è particolare!' : 'Il tuo programma è pronto!'}
+                    </h3>
+                    <p className="font-inter text-stone-400 mb-2">
+                      <span className="text-amber-400 font-semibold">{results.recommendedProgram?.name} - {results.recommendedProgram?.title}</span>
+                    </p>
+                    <p className="font-inter text-stone-500 text-sm mb-6">
+                      {isSpecial ? 'Scrivimi per un programma su misura' : 'Vuoi più info?'}
+                    </p>
+                    <a
+                      href={ctaLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => { handleCtaClick(); closeExitPopup(); }}
+                      className={`w-full inline-flex items-center justify-center gap-2 font-cinzel font-bold py-3 rounded ${
+                        isSpecial 
+                          ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white'
+                          : 'btn-forge text-stone-900'
+                      }`}
+                    >
+                      {isSpecial ? 'CONTATTAMI' : 'VEDI IL MIO PROGRAMMA'}
+                      <ArrowIcon className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          };
+
+          return (
+            <div className="min-h-screen norse-pattern" style={{ background: 'linear-gradient(180deg, #1A1A1A 0%, #252525 50%, #1A1A1A 100%)' }}>
+              <div className={`max-w-3xl mx-auto px-4 py-8 md:py-12 main-content ${results ? 'has-results' : ''}`}>
+                
+                {/* Header */}
+                <header className="text-center mb-10 md:mb-14 runic-border pb-8">
+                  <div className="flex items-center justify-center gap-3 md:gap-4 mb-4">
+                    <AxeIcon className="w-8 h-8 md:w-10 md:h-10 text-amber-500" />
+                    <h1 className="font-cinzel text-3xl md:text-5xl font-bold text-stone-100 tracking-wide gold-glow">
+                      HYBRID ATHLETE
+                    </h1>
+                    <ShieldIcon className="w-8 h-8 md:w-10 md:h-10 text-amber-500" />
+                  </div>
+                  <p className="font-inter text-stone-400 text-sm md:text-base tracking-widest uppercase">
+                    Valutazione Performance
+                  </p>
+                  <p className="font-inter text-stone-600 text-xs md:text-sm mt-3 italic">
+                    Forte • Esplosivo • Veloce • Resistente
+                  </p>
+                </header>
+
+                {/* Input Card */}
+                <section className="carved-card rounded-lg p-6 md:p-8 mb-8">
+                  <div className="flex items-center gap-3 mb-6 pb-4 border-b border-amber-900/30">
+                    <HelmIcon className="w-5 h-5 md:w-6 md:h-6 text-amber-500" />
+                    <h2 className="font-cinzel text-xl md:text-2xl font-semibold text-stone-100">
+                      I Tuoi Dati
+                    </h2>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+                    <div>
+                      <label className="block text-stone-400 mb-2 font-inter text-sm font-medium tracking-wide">
+                        PESO <span className="text-amber-600">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={weight}
+                          onChange={(e) => setWeight(e.target.value)}
+                          placeholder="75"
+                          className="norse-input w-full text-stone-100 px-4 py-3.5 rounded font-inter text-lg"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-600 text-sm">kg</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-stone-400 mb-2 font-inter text-sm font-medium tracking-wide">
+                        SQUAT <span className="text-amber-600">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          step="0.5"
+                          value={squat}
+                          onChange={(e) => setSquat(e.target.value)}
+                          placeholder="140"
+                          className="norse-input w-full text-stone-100 px-4 py-3.5 rounded font-inter text-lg"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-600 text-sm">kg</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-stone-400 mb-2 font-inter text-sm font-medium tracking-wide">
+                        5K RUN <span className="text-amber-600">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={run5k}
+                        onChange={(e) => setRun5k(e.target.value)}
+                        placeholder="22:30"
+                        className="norse-input w-full text-stone-100 px-4 py-3.5 rounded font-inter text-lg"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Calculation Steps or Button */}
+                  {isCalculating ? (
+                    <div className="mt-8 p-4 bg-black/20 rounded-lg">
+                      <div className="space-y-1">
+                        {calculationSteps.map((step, index) => (
+                          <div 
+                            key={index} 
+                            className={`calc-step ${calcStep > index ? 'done' : ''} ${calcStep === index + 1 ? 'active' : ''}`}
+                          >
+                            <div className="calc-step-icon">
+                              {calcStep > index ? <CheckIcon className="w-3 h-3" /> : ''}
+                            </div>
+                            <span className="font-inter text-stone-300 text-sm">{step}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={calculateResults}
+                      className={`btn-forge w-full mt-8 text-stone-900 font-cinzel font-bold py-4 md:py-5 rounded text-base md:text-lg tracking-wide relative z-[101] ${showStickyCta ? 'mb-28 md:mb-0' : ''}`}
+                    >
+                      FORGIA LA TUA VALUTAZIONE
+                    </button>
+                  )}
+                </section>
+
+                {/* Results */}
+                {results && (
+                  <div ref={resultsRef} className="space-y-6 animate-in">
+                    
+                    {/* Main Score */}
+                    <section className="carved-card rounded-lg p-6 md:p-10 text-center delay-1 animate-in">
+                      <div className="mb-6">
+                        <span className="text-6xl md:text-8xl text-amber-500 font-light" style={{ fontFamily: 'serif' }}>
+                          {getOverallPerformance(results.avgScore).symbol}
+                        </span>
+                      </div>
+                      
+                      <h3 className={`font-cinzel text-2xl md:text-4xl font-bold mb-2 ${getOverallPerformance(results.avgScore).color}`}>
+                        {getOverallPerformance(results.avgScore).text}
+                      </h3>
+                      
+                      <p className="font-inter text-stone-500 text-sm md:text-base mb-6">
+                        {getOverallPerformance(results.avgScore).desc}
+                      </p>
+                      
+                      <div className="inline-flex items-center gap-6 md:gap-10">
+                        <div className="score-ring w-28 h-28 md:w-36 md:h-36 rounded-full flex flex-col items-center justify-center" style={{ background: 'rgba(201, 162, 39, 0.1)' }}>
+                          <span className="font-inter text-4xl md:text-5xl font-bold text-amber-400">{results.avgScore}</span>
+                          <span className="font-inter text-stone-500 text-xs tracking-wider">SCORE</span>
+                        </div>
+                        <div className="text-left">
+                          <p className="font-inter text-stone-400 text-sm">Categoria</p>
+                          <p className="font-cinzel text-stone-200 text-lg md:text-xl font-semibold">{results.category}</p>
+                          <p className="font-inter text-sky-400 text-sm mt-2">{results.completedTests}/{results.totalPossibleTests} Test</p>
+                        </div>
+                      </div>
+                    </section>
+
+                    {/* Dynamic Analysis Text */}
+                    {results.analysis && (
+                      <section className="carved-card rounded-lg p-6 md:p-8 delay-2 animate-in border-l-4 border-amber-500">
+                        <h3 className="font-cinzel text-lg md:text-xl font-semibold text-stone-100 mb-4 flex items-center gap-2">
+                          <span className="text-amber-500">ᚨ</span> La Tua Analisi
+                        </h3>
+                        <div className="space-y-3 font-inter text-stone-300 text-sm md:text-base leading-relaxed">
+                          <p>{results.analysis.strengthAnalysis}</p>
+                          <p>{results.analysis.enduranceAnalysis}</p>
+                        </div>
+                      </section>
+                    )}
+
+                    {/* GAP ANALYSIS */}
+                    <section className="carved-card rounded-lg p-6 md:p-8 delay-2 animate-in">
+                      <h3 className="font-cinzel text-lg md:text-xl font-semibold text-stone-100 mb-6 flex items-center gap-2">
+                        <span className="text-amber-500">ᛗ</span> Analisi del Gap
+                      </h3>
+                      
+                      <div className="space-y-6">
+                        {results.tests.map((test, idx) => {
+                          const perf = getPerformanceLevel(test.score);
+                          const gap = 100 - test.score;
+                          // Barra limitata al 100% della larghezza, scala su 120 punti max
+                          const barWidth = Math.min((test.score / 120) * 100, 100);
+                          // Marker standard posizionato a 83.33% (100/120)
+                          const standardPosition = (100 / 120) * 100;
+                          
+                          return (
+                            <div key={idx}>
+                              <div className="flex justify-between items-center mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xl text-amber-500/80" style={{ fontFamily: 'serif' }}>{test.symbol}</span>
+                                  <span className="font-cinzel text-stone-200 font-medium">{test.name}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <span className={`font-inter text-2xl font-bold ${perf.color}`}>{test.score}</span>
+                                  {gap > 0 && (
+                                    <span className="font-inter text-xs text-stone-500 bg-stone-800 px-2 py-1 rounded">
+                                      -{gap} dallo standard
+                                    </span>
+                                  )}
+                                  {gap <= 0 && (
+                                    <span className="font-inter text-xs text-amber-400 bg-amber-900/30 px-2 py-1 rounded">
+                                      +{Math.abs(gap)} sopra!
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <div className="gap-bar-container">
+                                <div className="gap-bar">
+                                  <div 
+                                    className={`gap-bar-fill ${getGapBarColor(test.score)}`}
+                                    style={{ width: `${barWidth}%` }}
+                                  />
+                                </div>
+                                <div className="gap-bar-standard" style={{ left: `calc(${standardPosition}% - 1.5px)` }} />
+                              </div>
+                              
+                              <div className="flex justify-between mt-2 font-inter text-xs text-stone-500">
+                                <span>{test.displayValue || test.value} {test.unit}</span>
+                                <span>Standard: {test.displayStandard} {test.unit}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </section>
+
+                    {/* PROJECTION */}
+                    <section className="carved-card rounded-lg p-6 md:p-8 delay-2 animate-in projection-glow border border-amber-900/30">
+                      <div className="flex items-start gap-4">
+                        <div className="p-3 bg-amber-900/30 rounded-lg">
+                          <TrendUpIcon className="w-6 h-6 text-amber-400" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-cinzel text-lg md:text-xl font-semibold text-stone-100 mb-2">
+                            Dove potresti arrivare
+                          </h3>
+                          <p className="font-inter text-stone-400 text-sm mb-4">
+                            Con il programma giusto, in 12 settimane:
+                          </p>
+                          
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="text-center">
+                              <span className="font-inter text-stone-500 text-xs block mb-1">OGGI</span>
+                              <span className="font-inter text-2xl font-bold text-stone-400">{results.avgScore}</span>
+                            </div>
+                            <div className="flex-1 h-px bg-gradient-to-r from-stone-600 via-amber-500 to-amber-400 relative">
+                              <ArrowIcon className="w-5 h-5 text-amber-400 absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2" />
+                            </div>
+                            <div className="text-center">
+                              <span className="font-inter text-amber-400 text-xs block mb-1">12 SETTIMANE</span>
+                              <span className="font-inter text-3xl font-bold text-amber-400">{results.projectedScore}</span>
+                            </div>
+                          </div>
+                          
+                          <p className="font-inter text-stone-500 text-xs">
+                            {results.avgScore < 100 
+                              ? `Solo ${100 - results.avgScore} punti ti separano dallo standard. Con costanza e il metodo giusto, è assolutamente raggiungibile.`
+                              : 'Sei già sopra lo standard! Il programma ti aiuterà a consolidare e raggiungere il livello Elite.'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </section>
+
+                    {/* Recommended Program */}
+                    {results.recommendedProgram && (
+                      <section className={`rounded-lg p-6 md:p-8 delay-2 animate-in bg-gradient-to-br ${results.recommendedProgram.gradient} border border-amber-900/20`}>
+                        <div className="text-center mb-6">
+                          <span className="text-5xl md:text-6xl text-amber-400/80" style={{ fontFamily: 'serif' }}>
+                            {results.recommendedProgram.symbol}
+                          </span>
+                          <h3 className="font-cinzel text-xl md:text-2xl font-bold text-stone-100 mt-3">
+                            {results.recommendedProgram.name}
+                          </h3>
+                          <p className="font-inter text-amber-400/90 text-sm font-medium">
+                            {results.recommendedProgram.title}
+                          </p>
+                        </div>
+
+                        {/* Livelli Forza e Corsa */}
+                        <div className="flex justify-center gap-4 md:gap-6 mb-5">
+                          <div className="text-center">
+                            <p className="font-inter text-stone-500 text-xs uppercase tracking-wider mb-1">Forza</p>
+                            <span className={`inline-block px-3 py-1 rounded text-sm font-inter font-semibold ${
+                              results.recommendedProgram.strengthLevel === 'elite' ? 'bg-purple-500/20 text-purple-400' :
+                              results.recommendedProgram.strengthLevel === 'avanzato' ? 'bg-amber-500/20 text-amber-400' :
+                              results.recommendedProgram.strengthLevel === 'intermedio' ? 'bg-sky-500/20 text-sky-400' :
+                              results.recommendedProgram.strengthLevel === 'scarso' ? 'bg-amber-700/20 text-amber-600' :
+                              'bg-stone-500/20 text-stone-400'
+                            }`}>
+                              {results.recommendedProgram.strengthLevel?.toUpperCase()}
+                            </span>
+                          </div>
+                          <div className="text-center">
+                            <p className="font-inter text-stone-500 text-xs uppercase tracking-wider mb-1">Corsa</p>
+                            <span className={`inline-block px-3 py-1 rounded text-sm font-inter font-semibold ${
+                              results.recommendedProgram.runningLevel === 'elite' ? 'bg-purple-500/20 text-purple-400' :
+                              results.recommendedProgram.runningLevel === 'avanzato' ? 'bg-amber-500/20 text-amber-400' :
+                              results.recommendedProgram.runningLevel === 'intermedio' ? 'bg-sky-500/20 text-sky-400' :
+                              results.recommendedProgram.runningLevel === 'scarso' ? 'bg-amber-700/20 text-amber-600' :
+                              'bg-stone-500/20 text-stone-400'
+                            }`}>
+                              {results.recommendedProgram.runningLevel?.toUpperCase()}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="bg-black/20 rounded p-4 md:p-5 mb-5">
+                          <p className="font-inter text-stone-300 text-center text-sm md:text-base leading-relaxed">
+                            {results.recommendedProgram.description}
+                          </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                          <div className="bg-black/20 rounded p-4">
+                            <h4 className="font-cinzel text-amber-400/90 font-semibold mb-3 text-sm">Focus</h4>
+                            <ul className="space-y-2">
+                              {results.recommendedProgram.focus.map((item, idx) => (
+                                <li key={idx} className="font-inter text-stone-400 text-xs md:text-sm flex items-start gap-2">
+                                  <span className="text-amber-500 mt-0.5">•</span>
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className="bg-black/20 rounded p-4">
+                            <h4 className="font-cinzel text-amber-400/90 font-semibold mb-3 text-sm">Struttura</h4>
+                            <div className="space-y-3">
+                              <div>
+                                <p className="font-inter text-stone-500 text-xs">Frequenza</p>
+                                <p className="font-inter text-stone-200 font-semibold">{results.recommendedProgram.frequency}</p>
+                              </div>
+                              <div>
+                                <p className="font-inter text-stone-500 text-xs">Durata</p>
+                                <p className="font-inter text-stone-200 font-semibold">{results.recommendedProgram.duration}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* CTA PERSONALIZZATO */}
+                        <div className="text-center">
+                          <a
+                            href={results.recommendedProgram.ctaLink || "https://www.nicholasrubini.it/prodotto/scheda-hybrid-athlete/"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={handleCtaClick}
+                            className={`inline-flex flex-col items-center gap-1 font-cinzel font-bold px-6 md:px-10 py-4 md:py-5 rounded text-sm md:text-base ${
+                              results.recommendedProgram.isSpecialCase 
+                                ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white'
+                                : 'btn-forge text-stone-900'
+                            }`}
+                          >
+                            <span className="flex items-center gap-2">
+                              {results.recommendedProgram.ctaText}
+                              <ArrowIcon className="w-4 h-4 md:w-5 md:h-5" />
+                            </span>
+                            <span className="text-xs font-inter font-normal opacity-80">
+                              {results.recommendedProgram.ctaSubtext}
+                            </span>
+                          </a>
+                        </div>
+                      </section>
+                    )}
+
+                    {/* Individual Tests */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 delay-3 animate-in">
+                      {results.tests.map((test, idx) => {
+                        const levelInfo = test.levelDisplay || getLevelDisplay(test.level);
+                        return (
+                          <div key={idx} className="carved-card rounded-lg p-5 md:p-6">
+                            <div className="flex items-start justify-between mb-4">
+                              <div className="flex items-center gap-3">
+                                <span className="text-2xl md:text-3xl text-amber-500/80" style={{ fontFamily: 'serif' }}>{test.symbol}</span>
+                                <div>
+                                  <h4 className="font-cinzel font-semibold text-stone-100">{test.name}</h4>
+                                  <span className={`inline-block px-2 py-0.5 rounded text-xs font-inter font-medium text-white mt-1 ${levelInfo.badgeClass}`}>
+                                    {levelInfo.symbol} {levelInfo.label}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <span className={`font-inter text-lg md:text-xl font-bold ${levelInfo.color}`}>
+                                  {test.level?.toUpperCase()}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-2 text-sm font-inter">
+                              <div className="flex justify-between">
+                                <span className="text-stone-500">Il tuo valore</span>
+                                <span className="text-stone-200 font-semibold">
+                                  {test.displayValue || test.value} {test.unit}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-stone-500">Standard (Intermedio)</span>
+                                <span className="text-stone-400">
+                                  {test.higher ? '>' : '<'} {test.displayStandard || test.standard} {test.unit}
+                                </span>
+                              </div>
+                              {test.ratio && (
+                                <div className="flex justify-between pt-2 border-t border-stone-800">
+                                  <span className="text-stone-500">Rapporto</span>
+                                  <span className="text-amber-400 font-medium">
+                                    {test.ratio}x <span className="text-stone-600">vs {test.standardRatio}x</span>
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Share Section */}
+                    <section className="carved-card rounded-lg p-5 md:p-6 text-center delay-4 animate-in border border-amber-900/20">
+                      <p className="font-cinzel text-stone-300 mb-4 text-sm md:text-base">Condividi i tuoi risultati</p>
+                      <button
+                        onClick={generateInstagramStory}
+                        className="inline-flex items-center gap-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-inter font-medium px-5 py-3 rounded transition-all text-sm"
+                      >
+                        <DownloadIcon className="w-4 h-4" />
+                        SCARICA IMMAGINE
+                      </button>
+                    </section>
+
+                    {/* Score Legend */}
+                    <section className="text-center py-6 delay-4 animate-in">
+                      <div className="norse-divider text-xs mb-4">
+                        <span className="font-cinzel tracking-wider">LIVELLI</span>
+                      </div>
+                      <div className="flex flex-wrap justify-center gap-3 md:gap-4 font-inter text-xs">
+                        <span className="text-purple-400">ᛟ Elite</span>
+                        <span className="text-amber-400">ᛏ Avanzato</span>
+                        <span className="text-sky-400">ᚱ Intermedio</span>
+                        <span className="text-amber-600">ᚹ Scarso</span>
+                        <span className="text-stone-500">ᚠ Da forgiare</span>
+                      </div>
+                    </section>
+                  </div>
+                )}
+
+                <canvas ref={canvasRef} style={{ display: 'none' }} />
+
+                {/* Footer */}
+                <footer className="mt-12 pt-6 border-t border-stone-800/50 text-center">
+                  <p className="font-inter text-stone-600 text-xs tracking-wider">
+                    nicholasrubini.it • Train Like a Viking
+                  </p>
+                </footer>
+              </div>
+
+              {/* STICKY CTA MOBILE */}
+              {results && results.recommendedProgram && (
+                <div className={`sticky-cta ${showStickyCta ? 'visible' : ''}`}>
+                  <a
+                    href={results.recommendedProgram.ctaLink || "https://www.nicholasrubini.it/prodotto/scheda-hybrid-athlete/"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleCtaClick}
+                    className={`w-full flex flex-col items-center justify-center gap-0.5 font-cinzel font-bold py-3 rounded ${
+                      results.recommendedProgram.isSpecialCase 
+                        ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white'
+                        : 'btn-forge text-stone-900'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2 text-sm">
+                      {results.recommendedProgram.ctaText}
+                      <ArrowIcon className="w-4 h-4" />
+                    </span>
+                    <span className="text-xs font-inter font-normal opacity-80">
+                      {results.recommendedProgram.ctaSubtext}
+                    </span>
+                  </a>
+                </div>
+              )}
+
+              {/* Exit Intent Popup */}
+              <ExitPopup />
+            </div>
+          );
+        };
+
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<HybridAthleteAssessment />);
+    </script>
+</body>
+</html>
