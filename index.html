@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Che Hybrid Athlete sei? Test gratuito forza + corsa | Nicholas Rubini</title>
+<meta name="description" content="Inserisci età, peso, squat e tempo sui 5K: in 30 secondi scopri il tuo livello di forza e resistenza e la variante di Hybrid Training più adatta a te. Gratis, senza registrazione.">
+<link rel="canonical" href="https://hybrid-level.nicholasrubini.it/">
+<meta name="theme-color" content="#0D0D0D">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Nicholas Rubini">
+<meta property="og:url" content="https://hybrid-level.nicholasrubini.it/">
+<meta property="og:title" content="Che Hybrid Athlete sei? Fai il test">
+<meta property="og:description" content="Squat + 5K: scopri in 30 secondi il tuo livello di forza e resistenza. Gratis.">
+<meta property="og:image" content="https://hybrid-level.nicholasrubini.it/og-image.png">
+<meta property="og:image:secure_url" content="https://hybrid-level.nicholasrubini.it/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Che tipo di Hybrid Athlete sei? Test gratuito su squat e 5K di Nicholas Rubini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Che Hybrid Athlete sei? Fai il test">
+<meta name="twitter:description" content="Squat + 5K: scopri in 30 secondi il tuo livello di forza e resistenza. Gratis.">
+<meta name="twitter:image" content="https://hybrid-level.nicholasrubini.it/og-image.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230D0D0D'/%3E%3Cpath d='M32 10v44M32 10L18 24M32 10l14 14' stroke='%23D4AF37' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Palette di nicholasrubini.it/hybrid.html */
+    --bg: #0D0D0D;
+    --bg-2: #1A1A1A;
+    --card: #141414;
+    --line: #2A2A2A;
+    --gold: #D4AF37;
+    --gold-2: #fddb66;
+    --gold-soft: rgba(212, 175, 55, 0.12);
+    --text: #F5F5F5;
+    --muted: #B8B8B8;
+    --dim: #7c7c7c;
+    --ice: #b6cac8;
+    --ok: #43A047;
+    --err: #e8806a;
+    --display: 'Cinzel', Georgia, serif;
+    --body: 'Raleway', system-ui, -apple-system, sans-serif;
+    --radius: 4px;
+    --max: 640px;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+  a, button, label, summary, input { -webkit-tap-highlight-color: transparent; }
+  button, .btn, .seg span, summary, a { touch-action: manipulation; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  [hidden] { display: none !important; }
+  a { color: inherit; }
+  button, input, select { font: inherit; color: inherit; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- Layout ---------- */
+  .topbar {
+    display: flex; align-items: center; justify-content: center;
+    height: 60px; padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .brand {
+    font-family: var(--display); font-weight: 700; font-size: 18px;
+    letter-spacing: 0.02em; text-decoration: none;
+  }
+  .brand span { color: var(--gold); }
+
+  main { max-width: var(--max); margin: 0 auto; padding: 0 16px 48px; }
+  section { margin-top: 20px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 24px 20px;
+  }
+  @media (min-width: 560px) { .card { padding: 32px; } }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.12; margin: 0; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 18px; }
+  .gold { color: var(--gold); }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .kicker {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+    margin: 0 0 8px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { padding-top: 32px; text-align: center; }
+  .hero h1 { font-size: clamp(28px, 9vw, 52px); margin: 18px 0 14px; }
+  .hero h1 em { font-style: normal; color: var(--gold); display: block; }
+  .hero .lead { color: var(--muted); font-size: 17px; margin: 0 auto; max-width: 30em; }
+  .trust {
+    list-style: none; padding: 0; margin: 20px 0 0;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px;
+    font-size: 13px; color: var(--muted);
+  }
+  .trust li { display: inline-flex; align-items: center; gap: 6px; }
+  .trust li::before {
+    content: ''; width: 14px; height: 14px; border-radius: 50%; background: var(--gold);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' stroke='black' stroke-width='2.4' fill='none'/%3E%3C/svg%3E") center/10px no-repeat, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+
+  /* ---------- Form ---------- */
+  .field { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .field:first-child { padding-top: 4px; }
+  .field-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .field label, .field .label {
+    font-weight: 700; font-size: 15px; letter-spacing: 0.02em;
+  }
+  .step { font-size: 12px; color: var(--dim); font-weight: 600; letter-spacing: 0.08em; }
+  .hint { font-size: 13px; color: var(--dim); margin: 0 0 10px; }
+
+  .input-wrap { position: relative; display: inline-flex; align-items: center; }
+  .input {
+    width: 150px; height: 56px; padding: 0 44px 0 16px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
+    font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .input::placeholder { color: #383838; }
+  .input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+  .input.invalid { border-color: var(--err); }
+  .unit { position: absolute; right: 14px; color: var(--dim); font-size: 14px; pointer-events: none; }
+
+  .seg { display: inline-grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .seg label { position: relative; }
+  .seg input { position: absolute; inset: 0; opacity: 0; pointer-events: none; margin: 0; }
+  .seg.seg-5 { grid-template-columns: repeat(5, 1fr); width: 100%; max-width: 460px; }
+  .seg.seg-5 span { min-width: 0; padding: 12px 2px; font-size: 14px; }
+  .seg span { display: block; min-width: 110px; padding: 13px 18px; text-align: center; font-weight: 700; cursor: pointer; color: var(--muted); transition: background .2s, color .2s; }
+  .seg label + label span { border-left: 1px solid var(--line); }
+  .seg input:checked + span { background: var(--gold); color: var(--bg); }
+  .seg input:focus-visible + span { outline: 2px solid var(--gold-2); outline-offset: -4px; }
+  .time-row { display: inline-flex; align-items: center; gap: 8px; }
+  .time-row .input { width: var(--tw, 80px); padding: 0 8px; text-align: center; }
+  .time-row .sep { font-size: 22px; font-weight: 700; color: var(--dim); }
+  .time-labels { display: flex; gap: 8px; margin-top: 4px; font-size: 11px; color: var(--dim); }
+  .time-labels span { width: var(--tw, 80px); text-align: center; }
+  .time-labels span + span { margin-left: 16px; }
+  .time-labels span[hidden] + span { margin-left: 0; }
+
+  .err { color: var(--err); font-size: 13px; margin: 8px 0 0; min-height: 0; }
+  .note { color: var(--ice); font-size: 13px; margin: 8px 0 0; }
+
+  details.helper { margin-top: 12px; }
+  details.helper summary {
+    cursor: pointer; list-style: none; display: inline-block;
+    color: var(--gold); font-size: 14px; font-weight: 600;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  details.helper summary::-webkit-details-marker { display: none; }
+  .helper-body {
+    margin-top: 12px; padding: 16px; background: var(--bg); border: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px;
+  }
+  .helper-body p { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--muted); }
+  .mini label { display: block; font-size: 12px; color: var(--dim); margin-bottom: 4px; font-weight: 600; }
+  .mini input, .mini select {
+    height: 44px; padding: 0 12px; width: 100px;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); font-size: 16px;
+  }
+  .mini select { width: 150px; }
+  .mini input:focus, .mini select:focus { outline: none; border-color: var(--gold); }
+  .helper-out { flex-basis: 100%; font-size: 14px; color: var(--gold-2); min-height: 1.2em; margin: 0; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    width: 100%; min-height: 58px; padding: 14px 20px;
+    border: 0; border-radius: var(--radius); cursor: pointer; text-decoration: none; text-align: center;
+    font-family: var(--body); font-weight: 800; font-size: 17px; letter-spacing: 0.01em;
+    transition: transform .15s, background .2s, box-shadow .2s;
+  }
+  .btn small { font-weight: 500; font-size: 12px; opacity: .8; letter-spacing: 0; }
+  .btn-gold { background: var(--gold); color: var(--bg); box-shadow: 0 6px 24px rgba(212,175,55,.25); }
+  @media (hover: hover) { .btn-gold:hover { background: var(--gold-2); transform: translateY(-1px); } }
+  .btn-gold:active { transform: translateY(0); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); font-weight: 700; font-size: 15px; min-height: 50px; }
+  @media (hover: hover) { .btn-ghost:hover { border-color: var(--gold); } }
+  .btn-row { display: grid; gap: 10px; }
+  @media (min-width: 480px) { .btn-row.two { grid-template-columns: 1fr 1fr; } }
+  .link { color: var(--gold); font-weight: 600; text-underline-offset: 3px; }
+  .btn:focus-visible, .link:focus-visible, summary:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 3px; }
+
+  .form-foot { margin: 12px 0 0; text-align: center; font-size: 12px; color: var(--dim); }
+
+  /* Calcolo in corso */
+  .progress { list-style: none; margin: 24px 0 0; padding: 0; }
+  .progress li { display: flex; align-items: center; gap: 12px; padding: 7px 0; color: var(--dim); transition: color .3s; font-size: 15px; }
+  .progress li::before {
+    content: ''; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line); flex: none;
+    transition: all .3s;
+  }
+  .progress li.on { color: var(--text); }
+  .progress li.on::before { border-color: var(--gold); animation: pulse 1s infinite; }
+  .progress li.done { color: var(--muted); }
+  .progress li.done::before { border-color: var(--gold); background: var(--gold); animation: none; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(212,175,55,0); } 0%,100% { box-shadow: 0 0 0 0 rgba(212,175,55,.4); } }
+
+  /* ---------- FAQ ---------- */
+  .faq h2 { font-size: 18px; margin-bottom: 8px; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq details:last-child { border-bottom: 0; }
+  .faq summary {
+    cursor: pointer; list-style: none; padding: 14px 28px 14px 0; position: relative;
+    font-weight: 600; font-size: 15px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 0; top: 10px; color: var(--gold); font-size: 22px; font-weight: 400; }
+  .faq details[open] summary::after { content: '–'; }
+  .faq details p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+
+  /* ---------- Risultati ---------- */
+  .summary-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    margin-top: 20px; padding: 12px 16px; border: 1px solid var(--line); font-size: 14px; color: var(--muted);
+  }
+  .summary-bar button { background: none; border: 0; color: var(--gold); font-weight: 700; cursor: pointer; padding: 6px 0; font-size: 14px; white-space: nowrap; }
+
+  .reveal { text-align: center; position: relative; overflow: hidden; }
+  .reveal::before {
+    content: ''; position: absolute; inset: -40% -20% auto; height: 70%;
+    background: radial-gradient(closest-side, rgba(212,175,55,.14), transparent);
+    pointer-events: none;
+  }
+  .variant-badge {
+    width: 84px; height: 84px; margin: 6px auto 14px;
+    display: grid; place-items: center;
+    border: 2px solid var(--gold); color: var(--gold);
+    font-family: var(--display); font-weight: 700; font-size: 46px; line-height: 1;
+    position: relative;
+  }
+  .variant-badge.special { font-size: 30px; }
+  .reveal h2 { font-size: clamp(28px, 7.5vw, 38px); }
+  .reveal .profile-line { color: var(--muted); margin: 8px 0 0; }
+  .chips { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+    border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--muted);
+  }
+  .chip b { color: var(--text); }
+
+  .score {
+    display: flex; align-items: center; justify-content: center; gap: 18px; margin: 22px 0 6px; text-align: left;
+  }
+  .ring { width: 104px; height: 104px; position: relative; flex: none; }
+  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 7; }
+  .ring .bg { stroke: var(--line); }
+  .ring .fg { stroke: var(--gold); stroke-linecap: round; transition: stroke-dashoffset 1.2s ease-out; }
+  .ring .num {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums;
+  }
+  .score p { margin: 0; font-size: 13px; color: var(--dim); max-width: 15em; }
+  .score p strong { display: block; color: var(--text); font-size: 15px; margin-bottom: 2px; }
+
+  .desc { color: var(--muted); margin: 16px 0 22px; }
+  .cta-meta { margin: 10px 0 0; font-size: 12px; color: var(--dim); text-align: center; }
+
+  /* Meter livelli */
+  .meter + .meter { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .meter-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .meter-name { font-family: var(--display); font-weight: 700; font-size: 18px; }
+  .lvl { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; border-radius: var(--radius); }
+  .l0 { background: #262626; color: #a3a3a3; }
+  .l1 { background: rgba(201,143,90,.16); color: #d9a271; }
+  .l2 { background: rgba(182,202,200,.14); color: var(--ice); }
+  .l3 { background: rgba(212,175,55,.16); color: var(--gold); }
+  .l4 { background: var(--gold); color: var(--bg); }
+  .meter-val { margin: 6px 0 14px; color: var(--muted); font-size: 14px; }
+  .meter-val strong { color: var(--text); font-size: 20px; margin-right: 4px; }
+
+  .track { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+  .track span { height: 8px; background: var(--line); }
+  .track span.past { background: rgba(212,175,55,.35); }
+  .track span.cur { background: var(--gold); }
+  .track .dot {
+    position: absolute; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px;
+    border-radius: 50%; background: var(--text); border: 3px solid var(--gold);
+    box-shadow: 0 0 0 4px rgba(13,13,13,.8);
+    transition: left 1s ease-out;
+  }
+  .track-labels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-top: 8px; font-size: 11px; color: #5e5e5e; text-align: center; }
+  .track-labels .cur { color: var(--text); font-weight: 700; }
+  .meter-text { margin: 14px 0 0; font-size: 15px; }
+  .next {
+    margin: 12px 0 0; padding: 10px 12px; background: var(--bg); border-left: 3px solid var(--gold);
+    font-size: 14px; color: var(--muted);
+  }
+  .next b { color: var(--text); }
+
+  /* Programma */
+  .list { list-style: none; padding: 0; margin: 16px 0 0; }
+  .list li { position: relative; padding: 6px 0 6px 28px; color: var(--muted); font-size: 15px; }
+  .list li::before {
+    content: ''; position: absolute; left: 0; top: 9px; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.3l2.6 2.6L12 5.5' stroke='%230D0D0D' stroke-width='2.2' fill='none'/%3E%3C/svg%3E") center/12px no-repeat;
+  }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+  .stat { background: var(--bg); border: 1px solid var(--line); padding: 12px 8px; text-align: center; }
+  .stat b { display: block; font-family: var(--display); font-size: 20px; color: var(--gold); }
+  .stat span { font-size: 12px; color: var(--dim); }
+
+  /* Offerta */
+  .offer { border-color: rgba(212,175,55,.45); background: linear-gradient(180deg, #17150e 0%, var(--card) 40%); }
+  .includes { list-style: none; padding: 0; margin: 18px 0; }
+  .includes li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .includes li div b { display: block; font-size: 15px; }
+  .includes li div span { font-size: 13px; color: var(--dim); }
+  .includes li > s { color: var(--dim); font-size: 14px; white-space: nowrap; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .1em; background: var(--gold); color: var(--bg); padding: 2px 6px; margin-right: 6px; vertical-align: 2px; }
+  .price { display: flex; align-items: baseline; justify-content: center; gap: 12px; margin: 6px 0 16px; }
+  .price s { color: var(--dim); font-size: 18px; }
+  .price strong { font-family: var(--display); font-size: 48px; line-height: 1; }
+  .assure { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin: 14px 0 0; font-size: 12px; color: var(--dim); }
+  .learn-more {
+    display: block; margin-top: 14px; padding: 12px 8px; text-align: center; text-decoration: none;
+    font-size: 14px; line-height: 1.45; color: var(--muted);
+  }
+  .learn-more b { display: block; color: var(--gold); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .secondary { display: block; text-align: center; margin-top: 16px; font-size: 14px; }
+
+  /* Lead */
+  /* Autore */
+  .author { display: flex; gap: 16px; align-items: center; }
+  .author img { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; flex: none; border: 2px solid var(--gold); background: var(--bg-2); }
+  .author p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+
+  footer { text-align: center; padding: 28px 16px 40px; color: #5e5e5e; font-size: 12px; border-top: 1px solid var(--line); }
+  footer .runes { color: var(--gold); letter-spacing: .3em; display: block; margin-bottom: 6px; }
+
+  /* Sticky CTA mobile */
+  .sticky {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: rgba(13,13,13,.94); border-top: 1px solid var(--line);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    transform: translateY(110%); transition: transform .3s ease-out;
+  }
+  .sticky.show { transform: none; }
+  .sticky .btn { min-height: 52px; font-size: 16px; }
+  /* schermi stretti (iPhone SE, mini) */
+  @media (max-width: 380px) {
+    main { padding-left: 12px; padding-right: 12px; }
+    .card { padding: 22px 16px; }
+    .time-row, .time-labels { --tw: 66px; }
+    .time-row .input { font-size: 20px; }
+    .seg.seg-5 span { font-size: 13px; padding: 12px 0; }
+    .score { flex-direction: column; gap: 10px; text-align: center; }
+    .score p { max-width: none; }
+    .ring { width: 92px; height: 92px; }
+    .ring .num { font-size: 28px; }
+    .price strong { font-size: 42px; }
+  }
+  @media (min-width: 900px) { .sticky { display: none; } }
+  body.has-sticky main { padding-bottom: 96px; }
+
+  /* Popup */
+  .modal {
+    position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px;
+    background: rgba(0,0,0,.8);
+  }
+  .modal-box { position: relative; max-width: 420px; width: 100%; text-align: center; }
+  .modal-close { position: absolute; top: 8px; right: 12px; background: none; border: 0; color: var(--dim); font-size: 28px; cursor: pointer; line-height: 1; padding: 6px; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%); z-index: 95;
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: var(--radius); font-size: 14px; font-weight: 600;
+  }
+
+  .fade-in { animation: fadeUp .5s ease-out both; }
+  .fade-in:nth-child(2) { animation-delay: .08s; }
+  .fade-in:nth-child(3) { animation-delay: .16s; }
+  .fade-in:nth-child(4) { animation-delay: .24s; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">Nicholas <span>Rubini</span></span>
+</header>
+
+<main>
+  <!-- ====== INTRO ====== -->
+  <section class="hero" id="intro">
+    <span class="eyebrow">Test gratuito · 30 secondi</span>
+    <h1>Che tipo di <em>Hybrid Athlete</em> sei?</h1>
+    <p class="lead">Inserisci età, peso, squat e un dato di corsa (1 km, 5 km, 10 km, mezza o test di Cooper). Scopri il tuo livello di forza e di resistenza, e quale variante di Hybrid Training fa per te.</p>
+    <ul class="trust">
+      <li>Standard per sesso, età e peso</li>
+      <li>Nessuna registrazione</li>
+      <li>Risultato immediato</li>
+    </ul>
+  </section>
+
+  <!-- ====== FORM ====== -->
+  <section class="card" id="form-card">
+    <form id="calc" novalidate>
+      <div class="field">
+        <div class="field-head"><span class="label" id="sex-label">Sesso</span><span class="step">1 / 5</span></div>
+        <p class="hint">Uomini e donne hanno standard diversi.</p>
+        <div class="seg" role="radiogroup" aria-labelledby="sex-label">
+          <label><input type="radio" name="sex" value="M" checked><span>Uomo</span></label>
+          <label><input type="radio" name="sex" value="F"><span>Donna</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="age">Età</label><span class="step">2 / 5</span></div>
+        <p class="hint">Dai 40 anni in su gli standard si adattano all'età, come nelle categorie master.</p>
+        <div class="input-wrap">
+          <input class="input" id="age" name="age" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="2" placeholder="32" aria-describedby="age-err">
+          <span class="unit">anni</span>
+        </div>
+        <p class="err" id="age-err" role="alert"></p>
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="weight">Peso corporeo</label><span class="step">3 / 5</span></div>
+        <p class="hint">Il tuo peso attuale: gli standard si adattano al peso corporeo.</p>
+        <div class="input-wrap">
+          <input class="input" id="weight" name="weight" type="text" inputmode="decimal" autocomplete="off" placeholder="78" aria-describedby="weight-err">
+          <span class="unit">kg</span>
+        </div>
+        <p class="err" id="weight-err" role="alert"></p>
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="squat">Massimale di back squat</label><span class="step">4 / 5</span></div>
+        <p class="hint">Il carico massimo per 1 ripetizione, con bilanciere dietro le spalle.</p>
+        <div class="input-wrap">
+          <input class="input" id="squat" name="squat" type="text" inputmode="decimal" autocomplete="off" placeholder="120" aria-describedby="squat-err">
+          <span class="unit">kg</span>
+        </div>
+        <p class="err" id="squat-err" role="alert"></p>
+        <details class="helper" id="rm-helper">
+          <summary>Non conosci il massimale? Stimalo</summary>
+          <div class="helper-body">
+            <p>Un carico che hai sollevato e per quante ripetizioni (massimo 12).</p>
+            <div class="mini"><label for="rm-kg">Carico (kg)</label><input id="rm-kg" type="text" inputmode="decimal" placeholder="100"></div>
+            <div class="mini"><label for="rm-reps">Ripetizioni</label><input id="rm-reps" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="5"></div>
+            <p class="helper-out" id="rm-out" aria-live="polite"></p>
+            <button type="button" class="btn btn-ghost" id="rm-use" hidden>Usa questo valore</button>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <div class="field-head"><span class="label" id="run-label">Miglior prestazione di corsa</span><span class="step">5 / 5</span></div>
+        <p class="hint">Scegli il dato che conosci: se non è il 5 km, stimo io il tuo 5K. Per il test di Cooper inserisci i metri percorsi in 12 minuti. Va bene anche su tapis roulant, purché sia uno sforzo massimale.</p>
+        <div class="seg seg-5" role="radiogroup" aria-label="Distanza">
+          <label><input type="radio" name="dist" value="1000"><span>1 km</span></label>
+          <label><input type="radio" name="dist" value="5000" checked><span>5 km</span></label>
+          <label><input type="radio" name="dist" value="10000"><span>10 km</span></label>
+          <label><input type="radio" name="dist" value="21097"><span>Mezza</span></label>
+          <label><input type="radio" name="dist" value="cooper"><span>Cooper</span></label>
+        </div>
+        <div class="input-wrap" id="cooper-wrap" style="margin-top:12px" hidden>
+          <input class="input" id="cooper-m" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="4" placeholder="2800" aria-label="Metri percorsi in 12 minuti" style="width:170px">
+          <span class="unit">metri</span>
+        </div>
+        <div id="time-wrap">
+        <div class="time-row" role="group" aria-labelledby="run-label" style="margin-top:12px">
+          <input class="input" id="run-h" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" placeholder="1" aria-label="Ore" hidden>
+          <span class="sep" id="run-h-sep" hidden>:</span>
+          <input class="input" id="run-min" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="2" placeholder="25" aria-label="Minuti">
+          <span class="sep">:</span>
+          <input class="input" id="run-sec" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="2" placeholder="30" aria-label="Secondi">
+        </div>
+        <div class="time-labels"><span id="run-h-label" hidden>ore</span><span>min</span><span>sec</span></div>
+        </div>
+        <p class="note" id="run-est" aria-live="polite"></p>
+        <p class="err" id="run-err" role="alert"></p>
+      </div>
+
+      <div id="submit-area" style="margin-top:24px">
+        <button type="submit" class="btn btn-gold" id="submit-btn">Scopri il mio livello →</button>
+        <p class="form-foot">I dati restano nel tuo browser: servono solo per il calcolo.</p>
+      </div>
+      <ol class="progress" id="progress" hidden aria-live="polite"></ol>
+    </form>
+  </section>
+
+  <!-- ====== FAQ ====== -->
+  <section class="card faq" id="faq">
+    <h2>Domande frequenti</h2>
+    <details><summary>Come funziona il punteggio?</summary>
+      <p>Squat e 5K ricevono ciascuno un punteggio da 0 a 100, confrontandoli con standard specifici per uomo o donna e adattati al tuo peso corporeo: a parità di livello, a chi è più leggero si chiede un rapporto squat/peso più alto, a chi è più pesante si concede qualche secondo in più sui 5K. Ogni 20 punti c'è un livello: 20 Principiante, 40 Intermedio, 60 Avanzato, 80 Elite. L'Hybrid Score è la media dei due.</p></details>
+    <details><summary>Che tipo di squat devo usare?</summary>
+      <p>Il back squat, con il bilanciere dietro le spalle e a profondità regolamentare. Se non conosci il massimale, stimalo da una serie da 3-8 ripetizioni con il calcolatore qui sopra.</p></details>
+    <details><summary>Non ho mai corso un 5K: cosa inserisco?</summary>
+      <p>Scegli il dato che conosci (1 km, 10 km, mezza maratona o i metri del test di Cooper) e stimo il tuo 5K con la formula di Riegel. È una stima: dal 10 km e dalla mezza è affidabile, dal 1 km e dal test di Cooper (sforzi brevi) tende a essere ottimistica per chi corre poco, quindi uso una correzione più prudente.</p></details>
+    <details><summary>Che differenza c'è tra gli standard uomo e donna?</summary>
+      <p>A parità di livello, a una donna è richiesto circa il 75-78% del rapporto squat/peso di un uomo e il 5K ha soglie più lente di circa il 12%. Sono le differenze medie osservate nelle tabelle di forza e di age-grading della corsa.</p></details>
+    <details><summary>Come incide l'età?</summary>
+      <p>Tra i 23 e i 35 anni gli standard sono pieni. Dopo i 40 si riducono gradualmente, anno per anno e senza scatti, come nelle categorie master: a 50 anni ti chiedo circa l'11% in meno sullo squat e il 10% di tempo in più sul 5K, a 60 anni il 23% e il 17-20%. Per lo squat seguo i coefficienti master del powerlifting, per la corsa le tabelle di age-grading WMA. Sotto i 23 anni c'è una piccola riduzione, perché la forza è ancora in sviluppo.</p></details>
+    <details><summary>Il mio peso è molto basso o molto alto</summary>
+      <p>Gli standard sono più precisi tra 60 e 110 kg per gli uomini e tra 45 e 90 kg per le donne. Fuori da questi range puoi fare il test lo stesso, ma considera il risultato indicativo.</p></details>
+  </section>
+
+  <!-- ====== RISULTATI ====== -->
+  <div id="results" hidden></div>
+</main>
+
+<footer>
+  <span class="runes">ᛟ ᚹ ᛁ ᚾ ᚾ</span>
+  nicholasrubini.it · Train Like a Viking
+</footer>
+
+<div class="sticky" id="sticky" aria-hidden="true"></div>
+<div class="modal" id="exit-modal" hidden role="dialog" aria-modal="true" aria-labelledby="exit-title"></div>
+<canvas id="share-canvas" hidden></canvas>
+
+<noscript><p style="text-align:center;padding:20px">Per usare il test attiva JavaScript.</p></noscript>
+
+<script>
+(() => {
+  'use strict';
+
+  /* =====================================================================
+     CONFIGURAZIONE: modifica qui
+     ===================================================================== */
+  const CONFIG = {
+    price: 87,
+    fullValue: 176,
+    productId: 83493,
+    // ID variazioni WooCommerce (presi da hybrid.html)
+    variations: { A: 83619, B: 83620, C: 83622, D: 83621 },
+    // slug usati dal <select> di hybrid.html
+    slugs: { A: 'lifter', B: 'equilibrato', C: 'novizio', D: 'avanzato' },
+    checkoutUrl: 'https://www.nicholasrubini.it/checkout/',
+    salesPageUrl: 'https://www.nicholasrubini.it/hybrid.html',
+    contactUrl: 'https://www.nicholasrubini.it/contatta/',
+    shareUrl: 'https://hybrid-level.nicholasrubini.it/',
+    authorImg: 'https://www.nicholasrubini.it/wp-content/uploads/2026/01/Nicholas-Rubini-HomeGym.png',
+  };
+
+  /* UTM: se l'utente arriva con parametri utm_* (es. da una storia Instagram), vengono passati così come sono
+     alla pagina di vendita e al checkout, dove WooCommerce Order Attribution li registra nell'ordine.
+     Senza UTM in ingresso si usano quelli di default, che identificano il calcolatore come sorgente. */
+  const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id'];
+  const DEFAULT_UTM = { utm_source: 'hybrid-level', utm_medium: 'calculator', utm_campaign: 'hybrid-training' };
+  const INCOMING_UTM = (() => {
+    const q = new URLSearchParams(location.search), out = {};
+    UTM_KEYS.forEach((k) => { if (q.get(k)) out[k] = q.get(k); });
+    return out;
+  })();
+  const hasIncoming = Object.keys(INCOMING_UTM).length > 0;
+  // utm_content descrive il bottone cliccato, salvo che l'utente non ne porti già uno suo
+  const utmFor = (content) => (hasIncoming
+    ? { utm_content: content, ...INCOMING_UTM }
+    : { ...DEFAULT_UTM, utm_content: content });
+
+  /* =====================================================================
+     STANDARD
+     Scala unica 0-100 per forza, corsa e Hybrid Score: ogni 20 punti un livello.
+       0 Base · 20 Principiante · 40 Intermedio · 60 Avanzato · 80 Elite · 100 top hybrid
+     Ancore riferite a un peso di riferimento (80 kg uomo, 60 kg donna), corrette
+     in modo continuo per il peso. Interpolazione su scala logaritmica.
+     ===================================================================== */
+  const ANCHOR_SCORES = [0, 20, 40, 60, 80, 100];
+  const SQUAT_ALLOMETRY = -0.33;  // forza ∝ peso^0,67 → rapporto sul peso ∝ peso^-0,33
+  const RUN_PER_KG = 0.004;       // +0,4% di tempo sui 5K per ogni kg sopra il peso di riferimento
+  /* Correzione per età (interpolazione lineare tra i punti, valori fuori range bloccati agli estremi).
+     SQUAT: frazione della soglia "open" richiesta. Calo ~1%/anno dopo i 40, più rapido dopo i 55
+            (in linea con i coefficienti master del powerlifting, tipo McCulloch).
+     RUN:   moltiplicatore dei tempi soglia, da tabelle di age-grading WMA 5K (1 / fattore età). */
+  const AGE_POINTS = [16,   18,   20,   23,   35,   40,   45,    50,    55,    60,    65,    70,    75,    80];
+  const SQUAT_AGE  = [0.86, 0.91, 0.96, 1.00, 1.00, 0.98, 0.94,  0.89,  0.83,  0.77,  0.71,  0.65,  0.59,  0.53];
+  const RUN_AGE = {
+    M:              [1.04, 1.02, 1.00, 1.00, 1.00, 1.03, 1.065, 1.10,  1.135, 1.175, 1.22,  1.27,  1.34,  1.43],
+    F:              [1.04, 1.02, 1.00, 1.00, 1.00, 1.03, 1.07,  1.115, 1.16,  1.205, 1.255, 1.31,  1.38,  1.47],
+  };
+  const AGE_RANGE = [18, 70];   // fuori da qui il risultato è indicativo
+
+  const SEX = {
+    M: {
+      refBW: 80,
+      squat: [0.6, 1.0, 1.3, 1.6, 2.0, 2.5],                 // × peso corporeo
+      run: [2280, 1800, 1560, 1380, 1200, 1020],             // 38:00 · 30:00 · 26:00 · 23:00 · 20:00 · 17:00
+      adj: [55, 120],                                        // range di peso su cui si applica la correzione
+      range: [60, 110],                                      // range in cui gli standard sono più affidabili
+    },
+    F: {
+      // squat ≈ 75-78% dei rapporti maschili; 5K ≈ +12% di tempo (gap uomo/donna nelle tabelle di age-grading)
+      refBW: 60,
+      squat: [0.45, 0.75, 1.0, 1.25, 1.55, 1.95],
+      run: [2554, 2016, 1747, 1546, 1344, 1142],             // 42:34 · 33:36 · 29:07 · 25:46 · 22:24 · 19:02
+      adj: [45, 100],
+      range: [45, 90],
+    },
+  };
+
+  const LEVELS = ['base', 'principiante', 'intermedio', 'avanzato', 'elite'];
+  const LEVEL_UI = {
+    'base':         { label: 'Da costruire', short: 'Base', cls: 'l0' },
+    'principiante': { label: 'Principiante', short: 'Princ.', cls: 'l1' },
+    'intermedio':   { label: 'Intermedio', short: 'Interm.', cls: 'l2' },
+    'avanzato':     { label: 'Avanzato', short: 'Avanz.', cls: 'l3' },
+    'elite':        { label: 'Elite', short: 'Elite', cls: 'l4' },
+  };
+
+  /* Variante per combinazione forza (righe) × corsa (colonne) */
+  const MATRIX = [
+    //  corsa: base        principiante  intermedio   avanzato     elite
+    /* forza base         */ ['C',        'C',          'C',         'X',         'X'],
+    /* forza principiante */ ['C',        'C',          'B',         'B_RUN',     'B_RUN'],
+    /* forza intermedio   */ ['A',        'A',          'B',         'B_RUN',     'B_RUN'],
+    /* forza avanzato     */ ['A',        'A',          'B_STRONG',  'D',         'D'],
+    /* forza elite        */ ['A',        'A',          'B_STRONG',  'D',         'D'],
+  ];
+
+  const PROGRAMS = {
+    A: {
+      title: 'Il Lifter che Corre',
+      profile: 'Buona base di forza, corsa da sviluppare',
+      description: "Hai una base di forza solida. Ora ti serve una base aerobica costruita bene, senza perdere i carichi che hai conquistato.",
+      focus: ['Mantenere o aumentare PR e massa muscolare', 'Costruire la corsa in modo progressivo e intelligente', "Ridurre al minimo l'interferenza tra pesi e corsa", 'Risultato: forza stabile o in aumento, 5-10K in miglioramento'],
+    },
+    B: {
+      title: "L'Equilibrato",
+      profile: 'Buona base su entrambi i fronti',
+      description: 'Hai una buona base sia con i pesi che con la corsa. Ti serve un sistema che faccia crescere entrambe le qualità insieme, senza che una rubi il recupero all\'altra.',
+      focus: ['Crescita bilanciata di forza e base aerobica', 'Volume progressivo su entrambe le discipline', 'Timing delle sessioni per recuperare meglio', 'Risultato: forza in aumento e corsa in miglioramento costante'],
+    },
+    B_STRONG: {
+      title: "L'Equilibrato",
+      profile: 'Forza alta, corsa in crescita',
+      description: 'La tua forza è già alta e la base aerobica è solida, ma ha margine. La variante Equilibrato mantiene i tuoi carichi e porta la corsa al livello successivo.',
+      focus: ['Mantenere la forza ai livelli attuali', 'Progressione mirata sulla corsa', 'Volume di corsa crescente senza compromettere i PR', 'Risultato: forza stabile, corsa verso il livello Avanzato'],
+    },
+    B_RUN: {
+      title: "L'Equilibrato",
+      profile: 'Corsa forte, forza in crescita',
+      description: 'Corri già a un buon livello, ma in sala pesi hai ancora margine. La variante Equilibrato ti fa crescere nella forza senza farti perdere la corsa che hai costruito.',
+      focus: ['Progressione mirata sui fondamentali di forza', 'Mantenimento del volume e della qualità di corsa', 'Sessioni di forza posizionate per non compromettere le quality run', 'Risultato: forza in netto aumento, corsa stabile o in miglioramento'],
+    },
+    B_MASTER: {
+      title: "L'Equilibrato",
+      profile: 'Atleta master di alto livello',
+      description: 'Per la tua età sei avanzato sia con i pesi che nella corsa. Dopo i 60 anni però la capacità di recupero è il vero limite: la variante Equilibrato ti dà la stessa struttura con un volume più sostenibile rispetto alla variante Avanzata.',
+      focus: ['Mantenere forza e massa muscolare, la priorità numero uno dopo i 60', 'Corsa progressiva con più margine di recupero', 'Volume sostenibile su entrambe le discipline', 'Risultato: livelli alti mantenuti più a lungo, con meno rischio di sovraccarico'],
+    },
+    C: {
+      title: 'Il Novizio Totale',
+      profile: 'Fondamenta da costruire',
+      description: 'Sei all\'inizio del percorso hybrid, ed è la fase in cui si progredisce più in fretta. Focus su tecnica, costanza e fondamenta solide su entrambi i fronti.',
+      focus: ['Costruire basi di forza solide', 'Migliorare la composizione corporea', 'Stabilire una base aerobica', 'Risultato: fondamenta solide e miglioramenti su forza e corsa'],
+    },
+    D: {
+      title: "L'Hybrid Avanzato",
+      profile: 'Forte con i pesi e runner avanzato',
+      description: 'Sei forte in sala pesi e anche nella corsa. Per continuare a progredire su entrambi i fronti senza interferenze ti serve una periodizzazione avanzata.',
+      focus: ['Performance elevata in entrambi i domini', "Gestione fine dell'interferenza", 'Periodizzazione con picchi programmati', 'Risultato: PB su 5-10K mantenendo i PR nei big lift'],
+    },
+    X: {
+      title: 'Il Runner che Solleva',
+      profile: 'Runner avanzato, forza da costruire',
+      description: "Hai un'ottima base aerobica ma la forza è molto sotto la media. È un profilo particolare: serve un approccio su misura per costruire forza senza perdere ciò che hai ottenuto nella corsa.",
+      focus: ['Costruzione graduale della forza dai fondamentali', 'Protezione delle capacità aerobiche', 'Prevenzione infortuni con forza funzionale', 'Piano costruito sul tuo caso specifico'],
+      special: true,
+    },
+  };
+
+  /* =====================================================================
+     UTILITY
+     ===================================================================== */
+  const $ = (s, el = document) => el.querySelector(s);
+  const num = (v) => parseFloat(String(v).replace(',', '.').trim());
+  const fmtTime = (s) => { s = Math.round(s); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+  const fmtKg = (v) => (Math.round(v * 10) / 10).toString().replace('.', ',');
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  };
+  const withParams = (url, params) => {
+    const u = new URL(url);
+    Object.entries(params).forEach(([k, v]) => u.searchParams.set(k, v));
+    return u.toString();
+  };
+
+  function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast'; t.textContent = msg; t.setAttribute('role', 'status');
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2400);
+  }
+
+  /* =====================================================================
+     CALCOLO (stessa logica di classificazione dell'originale)
+     ===================================================================== */
+  function ageFactor(age, values) {
+    if (age <= AGE_POINTS[0]) return values[0];
+    for (let i = 0; i < AGE_POINTS.length - 1; i++) {
+      if (age <= AGE_POINTS[i + 1]) {
+        const t = (age - AGE_POINTS[i]) / (AGE_POINTS[i + 1] - AGE_POINTS[i]);
+        return values[i] + t * (values[i + 1] - values[i]);
+      }
+    }
+    return values[values.length - 1];
+  }
+  function ageClass(age) {
+    if (age < 20) return 'Under 20';
+    if (age < 35) return 'Open';
+    const lo = Math.floor(age / 5) * 5;
+    return `Master ${lo}-${lo + 4}`;
+  }
+
+  const clampBW = (w, std) => Math.max(std.adj[0], Math.min(std.adj[1], w));
+  const squatAnchorsKg = (w, std, ageF) => {
+    const f = Math.pow(clampBW(w, std) / std.refBW, SQUAT_ALLOMETRY) * ageF;
+    return std.squat.map((r) => r * f * w);
+  };
+  const runAnchorsSec = (w, std, ageF) => {
+    const f = (1 + RUN_PER_KG * (clampBW(w, std) - std.refBW)) * ageF;
+    return std.run.map((t) => t * f);
+  };
+
+  /* punteggio 0-100 con interpolazione logaritmica tra le ancore */
+  function scoreFrom(value, anchors, higherIsBetter) {
+    const L = (x) => (higherIsBetter ? Math.log(x) : -Math.log(x));
+    const v = L(value), a = anchors.map(L);
+    if (v <= a[0]) return 0;
+    for (let i = 0; i < a.length - 1; i++) {
+      if (v < a[i + 1]) return ANCHOR_SCORES[i] + 20 * (v - a[i]) / (a[i + 1] - a[i]);
+    }
+    return 100;
+  }
+  const levelIndex = (score) => Math.min(4, Math.floor(score / 20));
+
+  function compute({ sex, age, weight, squat, runSec }) {
+    const std = SEX[sex] || SEX.M;
+    const sAge = ageFactor(age, SQUAT_AGE);
+    const rAge = ageFactor(age, RUN_AGE[sex] || RUN_AGE.M);
+    const kgA = squatAnchorsKg(weight, std, sAge);
+    const secA = runAnchorsSec(weight, std, rAge);
+
+    // i punteggi si arrotondano per difetto, così livello e numero mostrato coincidono sempre
+    const sScore = Math.floor(scoreFrom(squat, kgA, true));
+    const rScore = Math.floor(scoreFrom(runSec, secA, false));
+    const sIdx = levelIndex(sScore);
+    const rIdx = levelIndex(rScore);
+    const score = Math.floor((sScore + rScore) / 2);
+
+    const sNext = sScore < 100 ? { label: sIdx < 4 ? LEVEL_UI[LEVELS[sIdx + 1]].label : '100 punti', kg: Math.ceil(kgA[sIdx + 1] / 2.5) * 2.5 } : null;
+    const rNext = rScore < 100 ? { label: rIdx < 4 ? LEVEL_UI[LEVELS[rIdx + 1]].label : '100 punti', sec: Math.floor(secA[rIdx + 1]) } : null;
+
+    let key = MATRIX[sIdx][rIdx];
+    // dai 60 anni il volume della variante D è eccessivo per il recupero: si passa alla B
+    if (key === 'D' && age >= 60) key = 'B_MASTER';
+    return {
+      sex, age, weight, squat, runSec,
+      ratio: squat / weight,
+      ageClass: ageClass(age),
+      ageAdj: { squat: Math.round((1 - sAge) * 100), run: Math.round((rAge - 1) * 100) },
+      ageOutOfRange: age < AGE_RANGE[0] || age > AGE_RANGE[1],
+      outOfRange: weight < std.range[0] || weight > std.range[1],
+      range: std.range,
+      strength: { level: LEVELS[sIdx], score: sScore, next: sNext },
+      run: { level: LEVELS[rIdx], score: rScore, next: rNext },
+      score,
+      level: LEVELS[levelIndex(score)],
+      program: { ...PROGRAMS[key], key: key.charAt(0) },
+    };
+  }
+
+  function strengthText(r) {
+    const x = r.ratio.toFixed(2).replace('.', ',');
+    return {
+      'elite': `Squat a ${x}× il peso corporeo: livello Elite. Pochi atleti che corrono arrivano qui.`,
+      'avanzato': `Squat a ${x}× il peso corporeo: livello Avanzato. La forza è il tuo punto forte.`,
+      'intermedio': `Squat a ${x}× il peso corporeo: livello Intermedio, una base solida su cui costruire.`,
+      'principiante': `Squat a ${x}× il peso corporeo: livello Principiante. Qui puoi fare i progressi più rapidi.`,
+      'base': `Squat a ${x}× il peso corporeo: la forza è da costruire, ed è proprio dove vedrai i miglioramenti più veloci.`,
+    }[r.strength.level];
+  }
+  function runText(r) {
+    const t = fmtTime(r.runSec);
+    return {
+      'elite': `${t} sui 5K: livello Elite. Hai il motore aerobico di un runner vero.`,
+      'avanzato': `${t} sui 5K: livello Avanzato. Ottima capacità aerobica.`,
+      'intermedio': `${t} sui 5K: livello Intermedio. Buona base, con margine per crescere.`,
+      'principiante': `${t} sui 5K: livello Principiante. La resistenza è il tuo margine più grande.`,
+      'base': `${t} sui 5K: la resistenza è da costruire. Con un piano strutturato si migliora in fretta.`,
+    }[r.run.level];
+  }
+  function ageNote(r) {
+    const a = r.ageAdj;
+    let txt;
+    if (a.squat <= 0 && a.run <= 0) txt = `Categoria <b>${r.ageClass}</b>: standard pieni, senza correzioni per l'età.`;
+    else txt = `Categoria <b>${r.ageClass}</b>: per i tuoi ${r.age} anni gli standard sono adattati con ${a.squat > 0 ? `${a.squat}% in meno sullo squat` : 'nessuna correzione sullo squat'} e ${a.run > 0 ? `${a.run}% di tempo in più sul 5K` : 'nessuna correzione sul 5K'}.`;
+    if (r.ageOutOfRange) txt += ' Fuori dalla fascia 18-70 anni il risultato è indicativo.';
+    return `<p class="note">${txt}</p>`;
+  }
+  function recoveryNote(r) {
+    if (r.age >= 50) return `<p class="next" style="margin-top:16px">Dopo i 50 anni il recupero tra le sessioni conta ancora di più: usa la Web-App Readiness per regolare il carico giorno per giorno e non saltare i giorni di scarico.</p>`;
+    if (r.age >= 40) return `<p class="next" style="margin-top:16px">Dopo i 40 anni il recupero diventa il fattore che limita i progressi: rispetta i giorni facili e la distanza tra le sessioni pesanti di gambe e le quality run.</p>`;
+    if (r.age < 18) return `<p class="next" style="margin-top:16px">Sotto i 18 anni la priorità è la tecnica: fatti seguire da un allenatore qualificato prima di lavorare con carichi massimali.</p>`;
+    return '';
+  }
+
+  function balanceText(r) {
+    const d = r.strength.score - r.run.score;
+    if (Math.abs(d) < 15) return `Profilo bilanciato: forza e corsa sono vicine (${r.strength.score} e ${r.run.score} punti).`;
+    const weak = d > 0 ? 'la corsa' : 'la forza';
+    return `Il tuo punto debole è ${weak}: ${Math.abs(d)} punti sotto l'altra qualità. È lì che ogni settimana di lavoro rende di più.`;
+  }
+
+  /* =====================================================================
+     LINK
+     ===================================================================== */
+  function checkoutLink(key, placement) {
+    return withParams(CONFIG.checkoutUrl, {
+      'add-to-cart': CONFIG.productId,
+      variation_id: CONFIG.variations[key],
+      ...utmFor(`variante_${key.toLowerCase()}_${placement}`),
+    });
+  }
+  function salesLink(key, placement) {
+    const p = utmFor(`lp_${placement}`);
+    if (CONFIG.slugs[key]) p.variante = CONFIG.slugs[key];
+    return withParams(CONFIG.salesPageUrl, p) + '#pricing';
+  }
+  function contactLink(placement) {
+    return withParams(CONFIG.contactUrl, utmFor(`contatto_${placement}`));
+  }
+
+  function primaryCta(r, placement, compact) {
+    const p = r.program;
+    if (p.special) {
+      return `<a class="btn btn-gold" href="${contactLink(placement)}" target="_blank" rel="noopener"
+        data-track="cta" data-dest="contact" data-placement="${placement}">
+        Scrivimi per un piano su misura →${compact ? '' : '<small>Il tuo profilo richiede un approccio personalizzato</small>'}</a>`;
+    }
+    return `<a class="btn btn-gold" href="${checkoutLink(p.key, placement)}"
+      data-track="cta" data-dest="checkout" data-placement="${placement}">
+      Inizia la Variante ${p.key} · €${CONFIG.price} →${compact ? '' : `<small>${p.title} · accesso immediato</small>`}</a>`;
+  }
+
+  /* =====================================================================
+     RENDER RISULTATI
+     ===================================================================== */
+  function meterHTML(name, valueHTML, part, text, nextHTML) {
+    const idx = LEVELS.indexOf(part.level);
+    const ui = LEVEL_UI[part.level];
+    const segs = LEVELS.map((_, i) => `<span class="${i < idx ? 'past' : i === idx ? 'cur' : ''}"></span>`).join('');
+    const labels = LEVELS.map((l, i) => `<span class="${i === idx ? 'cur' : ''}">${LEVEL_UI[l].short}</span>`).join('');
+    return `
+      <div class="meter">
+        <div class="meter-head"><span class="meter-name">${name}</span><span class="lvl ${ui.cls}">${ui.label} · ${part.score}</span></div>
+        <div class="meter-val">${valueHTML}</div>
+        <div class="track" aria-hidden="true">${segs}<i class="dot" style="left:0%" data-pos="${Math.max(3, Math.min(97, part.score)).toFixed(1)}"></i></div>
+        <div class="track-labels" aria-hidden="true">${labels}</div>
+        <p class="meter-text">${text}</p>
+        ${nextHTML}
+      </div>`;
+  }
+
+  function renderResults(r) {
+    const p = r.program;
+    const sUI = LEVEL_UI[r.strength.level];
+    const rUI = LEVEL_UI[r.run.level];
+    const circ = 2 * Math.PI * 46;
+
+    const sNext = r.strength.next
+      ? `<p class="next">Prossimo traguardo: <b>${r.strength.next.label}</b> a <b>${fmtKg(r.strength.next.kg)} kg</b> (+${fmtKg(r.strength.next.kg - r.squat)} kg)</p>`
+      : `<p class="next">Hai raggiunto il <b>massimo</b> della scala. Ora l'obiettivo è mantenerlo mentre spingi sulla corsa.</p>`;
+    const rNext = r.run.next
+      ? `<p class="next">Prossimo traguardo: <b>${r.run.next.label}</b> sotto <b>${fmtTime(r.run.next.sec)}</b> (−${fmtTime(r.runSec - r.run.next.sec)})</p>`
+      : `<p class="next">Hai raggiunto il <b>massimo</b> della scala. Ora l'obiettivo è mantenerlo mentre spingi sui carichi.</p>`;
+
+    const offer = p.special ? `
+      <section class="card offer fade-in" id="offer">
+        <p class="kicker">Il prossimo passo</p>
+        <h2>Un piano costruito su di te</h2>
+        <p class="desc">Con una base aerobica avanzata e una forza ancora da costruire, un programma standard rischierebbe di toglierti ciò che hai già. Scrivimi: valutiamo insieme come impostare il lavoro.</p>
+        ${primaryCta(r, 'offer')}
+        <a class="link secondary" href="${salesLink(null, 'special')}" target="_blank" rel="noopener" data-track="cta" data-dest="salespage" data-placement="offer">Oppure guarda come funziona Hybrid Training</a>
+      </section>` : `
+      <section class="card offer fade-in" id="offer">
+        <p class="kicker">Hybrid Training · Variante ${p.key}</p>
+        <h2>Tutto quello che ti serve per 12 settimane</h2>
+        <ul class="includes">
+          <li><div><b>Schede Forza</b><span>12 settimane con esercizi, serie, ripetizioni e RIR</span></div><s>€47</s></li>
+          <li><div><b>Piano Running</b><span>Ogni corsa pianificata con zone, durata e obiettivo</span></div><s>€47</s></li>
+          <li><div><b>Guida Setup</b><span>Warm-up, zone cardiache, come adattare il piano</span></div><s>€29</s></li>
+          <li><div><b><span class="tag">BONUS</span>Web-App Readiness</b><span>Monitora la prontezza e gestisci il carico</span></div><s>€29</s></li>
+        </ul>
+        <div class="price"><s>€${CONFIG.fullValue}</s><strong>€${CONFIG.price}</strong></div>
+        ${primaryCta(r, 'offer')}
+        <div class="assure"><span>Pagamento sicuro</span><span>Excel + PDF + Web-App</span><span>Aggiornamenti futuri inclusi</span></div>
+        <a class="link secondary" href="${salesLink(p.key, 'offer')}" target="_blank" rel="noopener" data-track="cta" data-dest="salespage" data-placement="offer">Leggi tutti i dettagli del programma</a>
+      </section>`;
+
+    $('#results').innerHTML = `
+      <div class="summary-bar">
+        <span>${r.sex === 'F' ? 'Donna' : 'Uomo'}, ${r.age} anni · ${fmtKg(r.weight)} kg · Squat ${fmtKg(r.squat)} kg · ${r.runSource ? `${r.runSource.label} ${r.runSource.raw}` : `5K ${fmtTime(r.runSec)}`}</span>
+        <button type="button" id="edit-btn">Modifica</button>
+      </div>
+
+      <section class="card reveal fade-in">
+        <p class="kicker">Il tuo profilo Hybrid</p>
+        <div class="variant-badge ${p.special ? 'special' : ''}">${p.special ? '✦' : p.key}</div>
+        <h2>${p.title}</h2>
+        <p class="profile-line">${p.profile}</p>
+        <div class="chips">
+          <span class="chip">Forza <b>${sUI.label}</b></span>
+          <span class="chip">Corsa <b>${rUI.label}</b></span>
+        </div>
+        <div class="score">
+          <div class="ring" role="img" aria-label="Hybrid Score ${r.score}">
+            <svg viewBox="0 0 104 104"><circle class="bg" cx="52" cy="52" r="46"/><circle class="fg" cx="52" cy="52" r="46" stroke-dasharray="${circ}" stroke-dashoffset="${circ}" data-target="${circ * (1 - Math.max(0.02, r.score / 100))}"/></svg>
+            <span class="num">${r.score}</span>
+          </div>
+          <p><strong>Hybrid Score · ${LEVEL_UI[r.level].label}</strong>Scala 0-100, un livello ogni 20 punti: 40 Intermedio, 60 Avanzato, 80 Elite.</p>
+        </div>
+        ${ageNote(r)}
+        ${r.outOfRange ? `<p class="note">Il tuo peso è fuori dal range ${r.range[0]}-${r.range[1]} kg, dove gli standard sono più affidabili: considera il risultato indicativo.</p>` : ''}
+        <p class="desc">${p.description}</p>
+        <div id="cta-main">${primaryCta(r, 'hero')}</div>
+        <a class="learn-more" href="${salesLink(p.special ? null : p.key, 'hero')}" target="_blank" rel="noopener" data-track="cta" data-dest="salespage" data-placement="hero">
+          <span>Vuoi capire prima com'è fatto il programma?</span>
+          <b>Leggi la presentazione completa di Hybrid Training →</b>
+        </a>
+      </section>
+
+      <section class="card fade-in">
+        <p class="kicker">La tua analisi</p>
+        <h2 style="margin-bottom:12px">Dove sei, e il prossimo step</h2>
+        <p class="next" style="margin:0 0 22px">${balanceText(r)}</p>
+        ${meterHTML('Squat', `<strong>${fmtKg(r.squat)} kg</strong> · ${r.ratio.toFixed(2).replace('.', ',')}× peso corporeo`, r.strength, strengthText(r), sNext)}
+        ${meterHTML('5K', `<strong>${fmtTime(r.runSec)}</strong> · ${fmtTime(r.runSec / 5)}/km${r.runSource ? ` · stimato ${r.runSource.from} (${r.runSource.raw})` : ''}`, r.run, runText(r), rNext)}
+      </section>
+
+      <section class="card fade-in">
+        <p class="kicker">${p.special ? 'Cosa ti serve' : `Perché la Variante ${p.key}`}</p>
+        <h2>${p.special ? 'Le tue priorità' : 'Su cosa lavorerai'}</h2>
+        <ul class="list">${p.focus.map((f) => `<li>${f}</li>`).join('')}</ul>
+        ${recoveryNote(r)}
+        ${p.special ? '' : `<div class="stats">
+          <div class="stat"><b>12</b><span>settimane</span></div>
+          <div class="stat"><b>3+3</b><span>forza + corsa / sett.</span></div>
+          <div class="stat"><b>+1</b><span>cardio opzionale</span></div>
+        </div>`}
+      </section>
+
+      ${offer}
+
+      <section class="card fade-in">
+        <h3>Condividi il tuo risultato</h3>
+        <p class="muted small" style="margin:8px 0 16px">Scarica la card per le storie e sfida chi si allena con te.</p>
+        <div class="btn-row two">
+          <button class="btn btn-ghost" type="button" id="share-card">Condividi la card</button>
+          <button class="btn btn-ghost" type="button" id="share-link">Sfida un amico</button>
+        </div>
+      </section>
+
+      <section class="card fade-in">
+        <div class="author">
+          <img src="${CONFIG.authorImg}" alt="Nicholas Rubini" loading="lazy" width="76" height="76">
+          <div>
+            <h3>Nicholas Rubini</h3>
+            <p>Strength & Conditioning coach, BSc S&C, docente Setanta College. Più di 10 anni di forza e 3 di hybrid training: questo è il sistema che uso io.</p>
+          </div>
+        </div>
+      </section>
+    `;
+
+    // animazioni barra e anello
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.querySelectorAll('#results .dot').forEach((d) => { d.style.left = d.dataset.pos + '%'; });
+      const fg = $('#results .ring .fg');
+      if (fg) fg.style.strokeDashoffset = fg.dataset.target;
+    }));
+
+    // sticky
+    const sticky = $('#sticky');
+    sticky.innerHTML = primaryCta(r, 'sticky', true);
+    setupSticky();
+
+    $('#edit-btn').addEventListener('click', showForm);
+    $('#share-card').addEventListener('click', () => shareCard(r));
+    $('#share-link').addEventListener('click', () => shareLink(r));
+  }
+
+  /* =====================================================================
+     STICKY CTA + EXIT INTENT
+     ===================================================================== */
+  let stickyObserver = null;
+  function setupSticky() {
+    const sticky = $('#sticky');
+    if (stickyObserver) stickyObserver.disconnect();
+    const visible = new Set();
+    stickyObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+      const show = visible.size === 0 && !$('#results').hidden;
+      sticky.classList.toggle('show', show);
+      sticky.setAttribute('aria-hidden', String(!show));
+      document.body.classList.toggle('has-sticky', !$('#results').hidden);
+    });
+    ['#cta-main', '#offer'].forEach((s) => { const el = $(s); if (el) stickyObserver.observe(el); });
+  }
+
+  let ctaClicked = false;
+  let exitShown = false;
+  function initExitIntent() {
+    document.addEventListener('mouseout', (e) => {
+      if (e.relatedTarget || e.clientY > 0) return;
+      if (exitShown || ctaClicked || !lastResult || $('#results').hidden) return;
+      exitShown = true;
+      const r = lastResult, p = r.program;
+      const m = $('#exit-modal');
+      m.innerHTML = `
+        <div class="card modal-box">
+          <button class="modal-close" type="button" aria-label="Chiudi">×</button>
+          <p class="kicker">Prima di andare</p>
+          <div class="variant-badge ${p.special ? 'special' : ''}" style="width:64px;height:64px;font-size:34px">${p.special ? '✦' : p.key}</div>
+          <h2 id="exit-title">${p.special ? 'Il tuo caso merita un piano su misura' : `La Variante ${p.key} è pensata per il tuo profilo`}</h2>
+          <p class="desc">${p.special ? 'Scrivimi e valutiamo insieme come costruire forza senza perdere la tua corsa.' : `${p.title}: 12 settimane di pesi e corsa coordinati, accesso immediato.`}</p>
+          ${primaryCta(r, 'exit')}
+        </div>`;
+      m.hidden = false;
+      const close = () => { m.hidden = true; };
+      m.addEventListener('click', (ev) => { if (ev.target === m || ev.target.closest('.modal-close')) close(); });
+      document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') close(); }, { once: true });
+    });
+  }
+
+  // dopo un click su una CTA il popup di uscita non compare più
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-track="cta"]')) ctaClicked = true;
+  });
+
+  /* =====================================================================
+     CONDIVISIONE
+     ===================================================================== */
+  async function buildCard(r) {
+    try {
+      await Promise.all([
+        document.fonts.load('700 80px Cinzel'),
+        document.fonts.load('800 80px Raleway'),
+        document.fonts.load('600 40px Raleway'),
+      ]);
+    } catch (e) {}
+    const c = $('#share-canvas');
+    const W = 1080, H = 1920;
+    c.width = W; c.height = H;
+    const ctx = c.getContext('2d');
+    const gold = '#D4AF37', text = '#F5F5F5', muted = '#B8B8B8', dim = '#7c7c7c', line = '#2A2A2A';
+    const spacing = (v) => { if ('letterSpacing' in ctx) ctx.letterSpacing = v; };
+
+    ctx.fillStyle = '#0D0D0D'; ctx.fillRect(0, 0, W, H);
+    const g = ctx.createRadialGradient(W / 2, 640, 40, W / 2, 640, 700);
+    g.addColorStop(0, 'rgba(212,175,55,0.16)'); g.addColorStop(1, 'rgba(212,175,55,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = line; ctx.lineWidth = 2; ctx.strokeRect(60, 60, W - 120, H - 120);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = gold; ctx.font = '700 30px Raleway'; spacing('8px');
+    ctx.fillText('NICHOLAS RUBINI', W / 2, 190);
+    ctx.fillStyle = text; ctx.font = '700 86px Cinzel'; spacing('2px');
+    ctx.fillText('HYBRID ATHLETE', W / 2, 300);
+    spacing('0px');
+
+    ctx.fillStyle = muted; ctx.font = '600 32px Raleway'; spacing('6px');
+    ctx.fillText('IL MIO PROFILO', W / 2, 430); spacing('0px');
+
+    // badge
+    const bs = 200, bx = W / 2 - bs / 2, by = 470;
+    ctx.strokeStyle = gold; ctx.lineWidth = 6; ctx.strokeRect(bx, by, bs, bs);
+    ctx.fillStyle = gold; ctx.font = `700 ${r.program.special ? 110 : 140}px Cinzel`;
+    ctx.textBaseline = 'middle';
+    ctx.fillText(r.program.special ? '✦' : r.program.key, W / 2, by + bs / 2 + 8);
+    ctx.textBaseline = 'alphabetic';
+
+    ctx.fillStyle = text; ctx.font = '700 76px Cinzel';
+    ctx.fillText(r.program.title, W / 2, 790);
+
+    ctx.fillStyle = gold; ctx.font = '800 220px Raleway';
+    ctx.fillText(String(r.score), W / 2, 1060);
+    ctx.fillStyle = dim; ctx.font = '600 30px Raleway'; spacing('6px');
+    ctx.fillText('HYBRID SCORE', W / 2, 1120); spacing('0px');
+
+    const rows = [
+      ['SQUAT', `${fmtKg(r.squat)} kg · ${r.ratio.toFixed(2).replace('.', ',')}× BW`, LEVEL_UI[r.strength.level].label],
+      ['5K', fmtTime(r.runSec), LEVEL_UI[r.run.level].label],
+    ];
+    let y = 1220;
+    rows.forEach(([name, val, lvl]) => {
+      ctx.fillStyle = '#141414'; ctx.fillRect(120, y, W - 240, 170);
+      ctx.strokeStyle = line; ctx.lineWidth = 2; ctx.strokeRect(120, y, W - 240, 170);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = text; ctx.font = '700 48px Cinzel'; ctx.fillText(name, 170, y + 75);
+      ctx.fillStyle = muted; ctx.font = '500 36px Raleway'; ctx.fillText(val, 170, y + 128);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = gold; ctx.font = '800 40px Raleway'; spacing('3px');
+      ctx.fillText(lvl.toUpperCase(), W - 170, y + 102); spacing('0px');
+      ctx.textAlign = 'center';
+      y += 200;
+    });
+
+    ctx.fillStyle = text; ctx.font = '700 50px Cinzel';
+    ctx.fillText('Che Hybrid Athlete sei?', W / 2, 1720);
+    ctx.fillStyle = gold; ctx.font = '700 38px Raleway';
+    ctx.fillText(CONFIG.shareUrl.replace(/^https?:\/\//, '').replace(/\/$/, ''), W / 2, 1780);
+
+    return new Promise((res) => c.toBlob(res, 'image/png'));
+  }
+
+  async function shareCard(r) {
+    const blob = await buildCard(r);
+    if (!blob) return;
+    const file = new File([blob], 'hybrid-athlete.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'Il mio profilo Hybrid Athlete' });
+
+        return;
+      } catch (e) { if (e.name === 'AbortError') return; }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'hybrid-athlete.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+  }
+
+  async function shareLink(r) {
+    const url = withParams(CONFIG.shareUrl, { utm_source: 'share', utm_medium: 'referral', utm_campaign: 'hybrid-level' });
+    const text = `Ho fatto ${r.score} di Hybrid Score (squat + 5K). Tu quanto fai?`;
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Che Hybrid Athlete sei?', text, url }); return; }
+      catch (e) { if (e.name === 'AbortError') return; }
+    }
+    try { await navigator.clipboard.writeText(`${text} ${url}`); toast('Link copiato'); }
+    catch (e) { prompt('Copia il link:', url); }
+  }
+
+  /* =====================================================================
+     FORM
+     ===================================================================== */
+  const F = {
+    age: $('#age'), weight: $('#weight'), squat: $('#squat'), h: $('#run-h'), min: $('#run-min'), sec: $('#run-sec'), cooper: $('#cooper-m'),
+  };
+
+  const getSex = () => (document.querySelector('input[name="sex"]:checked') || {}).value || 'M';
+  const getDist = () => (document.querySelector('input[name="dist"]:checked') || {}).value || '5000';
+
+  /* Distanze accettate: range del tempo inserito (secondi) e segnaposto [ore, min, sec] */
+  const DIST = {
+    1000:  { label: '1 km', from: 'dal 1 km', on: 'sul 1 km',  range: [150, 600],    ph: { M: ['', '4', '30'],  F: ['', '5', '15'] } },
+    5000:  { label: '5 km', from: 'dal 5 km', on: 'sul 5 km',  range: [720, 3599],   ph: { M: ['', '25', '30'], F: ['', '29', '30'] } },
+    10000: { label: '10 km', from: 'dal 10 km', on: 'sul 10 km', range: [1560, 5999],  ph: { M: ['', '52', '00'], F: ['', '61', '00'] } },
+    cooper: { label: 'Cooper', from: 'dal test di Cooper', on: 'nel test di Cooper', meters: [1600, 4200], ph: { M: ['', '', ''], F: ['', '', ''] }, phM: { M: '2800', F: '2450' } },
+    21097: { label: 'Mezza', from: 'dalla mezza maratona', on: 'sulla mezza maratona', range: [3600, 12600], ph: { M: ['1', '55', '00'], F: ['2', '10', '00'] } },
+  };
+  /* Riegel: T5k = T * (5000 / d)^k. Da distanze più lunghe k = 1,06; dal 1 km uso 1,08,
+     perché chi corre poco perde più velocità allungando la distanza e 1,06 sarebbe ottimistico. */
+  const to5k = (sec, d) => (d === 5000 ? sec : Math.round(sec * Math.pow(5000 / d, d < 5000 ? 1.08 : 1.06)));
+  // Cooper: 12 minuti (720 s) su una distanza nota; la si tratta come una gara su quella distanza
+  const fmtM = (m) => m.toLocaleString('it-IT');
+  const fmtClock = (s) => (s >= 3600 ? `${Math.floor(s / 3600)}:${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}` : fmtTime(s));
+
+  const PLACEHOLDERS = { M: ['78', '120'], F: ['62', '75'] };
+  function applyPlaceholders() {
+    const sex = getSex(), d = getDist();
+    const ph = PLACEHOLDERS[sex];
+    F.weight.placeholder = ph[0]; F.squat.placeholder = ph[1];
+    const rp = DIST[d].ph[sex];
+    F.h.placeholder = rp[0]; F.min.placeholder = rp[1]; F.sec.placeholder = rp[2];
+    F.cooper.placeholder = DIST.cooper.phM[sex];
+  }
+  function applyDist() {
+    const d = getDist();
+    const hm = d === '21097', cooper = d === 'cooper';
+    $('#cooper-wrap').hidden = !cooper; $('#time-wrap').hidden = cooper;
+    F.h.hidden = !hm; $('#run-h-sep').hidden = !hm; $('#run-h-label').hidden = !hm;
+    if (!hm) F.h.value = '';
+    applyPlaceholders(); updEstimate();
+  }
+  function updEstimate() {
+    const v = readInputs();
+    const out = $('#run-est');
+    out.textContent = (v.dist !== '5000' && v.runValid) ? `5K stimato: ~${fmtTime(v.runSec)}` : '';
+  }
+  document.querySelectorAll('input[name="sex"]').forEach((el) => el.addEventListener('change', applyPlaceholders));
+  document.querySelectorAll('input[name="dist"]').forEach((el) => el.addEventListener('change', () => {
+    applyDist(); validate(false);
+  }));
+
+  function readInputs() {
+    const sex = getSex();
+    const age = parseInt(F.age.value, 10);
+    const weight = num(F.weight.value);
+    const squat = num(F.squat.value);
+    const dist = getDist();
+    if (dist === 'cooper') {
+      const meters = parseInt(F.cooper.value, 10);
+      const [lo, hi] = DIST.cooper.meters;
+      const runValid = meters >= lo && meters <= hi;
+      return { sex, age, weight, squat, dist, meters, rawSec: 720, runValid, runSec: runValid ? to5k(720, meters) : NaN };
+    }
+    const d = parseInt(dist, 10);
+    const h = d === 21097 ? (F.h.value.trim() === '' ? 0 : parseInt(F.h.value, 10)) : 0;
+    const m = parseInt(F.min.value, 10);
+    const s = F.sec.value.trim() === '' ? 0 : parseInt(F.sec.value, 10);
+    const rawSec = h * 3600 + m * 60 + s;
+    const r = DIST[dist].range;
+    const runValid = !isNaN(m) && !isNaN(s) && !isNaN(h) && s >= 0 && s <= 59 && m >= 0 && (d !== 21097 || m <= 59)
+      && rawSec >= r[0] && rawSec <= r[1];
+    return { sex, age, weight, squat, dist, rawSec, runValid, runSec: runValid ? to5k(rawSec, d) : NaN };
+  }
+
+  function setErr(id, inputs, msg) {
+    $(id).textContent = msg || '';
+    inputs.forEach((i) => { i.classList.toggle('invalid', !!msg); i.setAttribute('aria-invalid', msg ? 'true' : 'false'); });
+  }
+
+  function validate(showAll) {
+    const v = readInputs();
+    let ok = true, first = null;
+    const check = (cond, id, inputs, msg, touched) => {
+      if (!cond) { ok = false; first = first || inputs[0]; if (showAll || touched) setErr(id, inputs, msg); }
+      else setErr(id, inputs, '');
+    };
+    check(v.age >= 14 && v.age <= 90, '#age-err', [F.age], 'Inserisci la tua età (14-90).', F.age.value !== '');
+    check(v.weight >= 35 && v.weight <= 160, '#weight-err', [F.weight], 'Inserisci il tuo peso in kg (es. 78).', F.weight.value !== '');
+    check(v.squat >= 20 && v.squat <= 400, '#squat-err', [F.squat], 'Inserisci il massimale in kg (es. 120).', F.squat.value !== '');
+    if (v.dist === 'cooper') {
+      const [lo, hi] = DIST.cooper.meters;
+      check(v.runValid, '#run-err', [F.cooper], `Inserisci i metri percorsi in 12 minuti (tra ${fmtM(lo)} e ${fmtM(hi)}).`, F.cooper.value !== '');
+    } else {
+      const dr = DIST[v.dist].range;
+      check(v.runValid, '#run-err', [F.h, F.min, F.sec],
+        `Inserisci un tempo ${DIST[v.dist].on} tra ${fmtClock(dr[0])} e ${fmtClock(dr[1])}.`, F.min.value !== '');
+    }
+    return { ok, first, v };
+  }
+
+  // auto-avanzamento minuti → secondi
+  F.h.addEventListener('input', () => {
+    F.h.value = F.h.value.replace(/\D/g, '');
+    if (F.h.value.length === 1) F.min.focus();
+  });
+  ['h', 'min', 'sec'].forEach((k) => F[k].addEventListener('input', updEstimate));
+  F.cooper.addEventListener('input', () => { F.cooper.value = F.cooper.value.replace(/\D/g, ''); updEstimate(); });
+  F.min.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && F.min.value === '' && !F.h.hidden) F.h.focus(); });
+  F.min.addEventListener('input', () => {
+    F.min.value = F.min.value.replace(/\D/g, '');
+    if (F.min.value.length === 2) F.sec.focus();
+  });
+  F.age.addEventListener('input', () => { F.age.value = F.age.value.replace(/\D/g, ''); });
+  F.sec.addEventListener('input', () => { F.sec.value = F.sec.value.replace(/\D/g, ''); });
+  F.sec.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && F.sec.value === '') F.min.focus(); });
+  Object.values(F).forEach((i) => i.addEventListener('blur', () => validate(false)));
+
+
+  // helper 1RM (Epley)
+  const rmKg = $('#rm-kg'), rmReps = $('#rm-reps'), rmOut = $('#rm-out'), rmUse = $('#rm-use');
+  let rmVal = null;
+  function updRM() {
+    const w = num(rmKg.value), n = parseInt(rmReps.value, 10);
+    rmVal = (w > 0 && n >= 1 && n <= 12) ? Math.round(w * (1 + n / 30) * 2) / 2 : null;
+    rmOut.textContent = rmVal ? `Massimale stimato: ~${fmtKg(rmVal)} kg` : (n > 12 ? 'Usa una serie da massimo 12 ripetizioni.' : '');
+    rmUse.hidden = !rmVal;
+  }
+  rmKg.addEventListener('input', updRM); rmReps.addEventListener('input', updRM);
+  rmUse.addEventListener('click', () => {
+    F.squat.value = String(rmVal).replace('.', ',');
+    $('#rm-helper').open = false; validate(false); F.min.focus();
+
+  });
+
+
+  let lastResult = null;
+
+  $('#calc').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const { ok, first, v } = validate(true);
+    if (!ok) { first.focus(); return; }
+
+    store.set('hl_inputs', { sex: v.sex, a: F.age.value, w: F.weight.value, s: F.squat.value, d: v.dist, c: F.cooper.value, h: F.h.value, m: F.min.value, sec: F.sec.value });
+    const r = compute(v);
+    r.runSource = v.dist === '5000' ? null : {
+      label: DIST[v.dist].label,
+      from: DIST[v.dist].from,
+      raw: v.dist === 'cooper' ? `${fmtM(v.meters)} m` : fmtClock(v.rawSec),
+    };
+    lastResult = r;
+
+    const steps = ['Calcolo la forza relativa', `Confronto con gli standard per ${fmtKg(r.weight)} kg`, 'Scelgo la variante più adatta'];
+    const prog = $('#progress');
+    prog.innerHTML = steps.map((s) => `<li>${s}</li>`).join('');
+    prog.hidden = false;
+    $('#submit-area').hidden = true;
+    const items = [...prog.children];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const dt = reduce ? 0 : 550;
+    items.forEach((li, i) => {
+      setTimeout(() => { li.classList.add('on'); if (i > 0) { items[i - 1].classList.remove('on'); items[i - 1].classList.add('done'); } }, dt * i);
+    });
+    setTimeout(() => {
+      items.forEach((li) => { li.classList.remove('on'); li.classList.add('done'); });
+      showResults(r);
+    }, dt * steps.length + (reduce ? 0 : 250));
+  });
+
+  function showResults(r) {
+    renderResults(r);
+    ['#intro', '#form-card', '#faq'].forEach((s) => { $(s).hidden = true; });
+    $('#results').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  function showForm() {
+    ['#intro', '#form-card', '#faq'].forEach((s) => { $(s).hidden = false; });
+    $('#results').hidden = true;
+    $('#progress').hidden = true;
+    $('#submit-area').hidden = false;
+    $('#sticky').classList.remove('show');
+    document.body.classList.remove('has-sticky');
+    $('#form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  }
+
+  /* =====================================================================
+     AVVIO
+     ===================================================================== */
+  const saved = store.get('hl_inputs');
+  if (saved) {
+    F.age.value = saved.a || ''; F.weight.value = saved.w || ''; F.squat.value = saved.s || '';
+    F.min.value = saved.m || ''; F.sec.value = saved.sec || ''; F.h.value = saved.h || ''; F.cooper.value = saved.c || '';
+    const dRadio = document.querySelector(`input[name="dist"][value="${saved.d}"]`);
+    if (dRadio) dRadio.checked = true;
+    const radio = document.querySelector(`input[name="sex"][value="${saved.sex}"]`);
+    if (radio) radio.checked = true;
+  }
+  applyDist();
+    initExitIntent();
+
+})();
+</script>
+</body>
+</html>
